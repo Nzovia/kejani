@@ -17,7 +17,7 @@ class _HomePageState extends State<HomePage> {
       length: 2,
       child: Scaffold(
         drawerEnableOpenDragGesture: false,
-        drawer: const AppNavigator(),
+        drawer: NavigationDrawer(),
         appBar: AppBar(
           leading: Builder(builder: (context) =>
               IconButton(
