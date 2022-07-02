@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:kejani/components/navigation_drawer.dart';
 import 'package:kejani/pages/tabs/pending_bills.dart';
-import 'package:kejani/widgets/cards/bill_widget.dart';
-
 import 'tabs/paid_bills.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,15 +16,21 @@ class _HomePageState extends State<HomePage> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+        drawerEnableOpenDragGesture: false,
+        drawer: const AppNavigator(),
         appBar: AppBar(
-          leading: IconButton(
-              icon: const Icon(
-                Icons.menu,
-                size: 24,
-                color: Colors.white,
+          leading: Builder(builder: (context) =>
+              IconButton(
+                icon: const Icon(
+                  Icons.menu,
+                  size: 24,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  Scaffold.of(context).openDrawer();
+                },
               ),
-             onPressed: () {  },
-          ),
+            ),
           centerTitle: true,
           title: const Text(
             "My Bills",
