@@ -3,17 +3,33 @@ import 'package:flutter/material.dart';
 import '../pages/UserProfile.dart';
 
 class NavigationDrawer extends StatelessWidget {
-  final padding = const EdgeInsets.only(left: 10, right: 10, bottom: 5);
+  final padding = const EdgeInsets.only(left: 10, right: 10, bottom: 0);
+
+  const NavigationDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
+    final imageUrl = ("images/profile.png");
+    const userName = "Fidelis Mueni";
+    const userEmail = "fidelismueni182@gmail.com";
+
     return Drawer(
       child: Material(
         color: Colors.white,
         child: ListView(
           children: <Widget>[
+
+            buildHeader(
+              imageUrl:imageUrl,
+              userName:userName,
+              userEmail:userEmail,
+                onClicked:()=>Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
+                const UserProfile()
+                ))
+            ),
             const SizedBox(
-              height: 48,
+              height: 28,
             ),
             buildMenuItem(itemName: "Profile",
                 itemIcon: Icons.person,
@@ -88,32 +104,60 @@ class NavigationDrawer extends StatelessWidget {
     Navigator.of(context).pop(); // programattically close the the navigator before navigating to the next filed
     switch(i){
       case 0:
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => UserProfile()));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const UserProfile()));
         //TODO: Display user details
         break;
       case 1:
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => UserProfile()));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const UserProfile()));
         //TODO: Load your  wallet activity
         break;
       case 2:
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => UserProfile()));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const UserProfile()));
         //TODO: Learn more about the app and you can contact us
         break;
       case 3:
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => UserProfile()));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const UserProfile()));
         //TODO: opening app settings activity
         break;
       case 4:
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => UserProfile()));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const UserProfile()));
         //TODO: opening playstore and get new version of the app
         break;
       case 5:
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => UserProfile()));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const UserProfile()));
         break;
 
     }
 
   }
+
+  buildHeader({
+    required String imageUrl,
+    required String userName,
+    required String userEmail,
+    required Future Function() onClicked}) =>(
+      InkWell(
+        onTap: onClicked,
+        
+        //create an header within a row widget
+        child: Container(
+          padding: const EdgeInsets.only(left:10, top: 20,),
+          child: Row(
+            children: [
+              CircleAvatar(radius: 30, backgroundImage: NetworkImage(imageUrl) ), const SizedBox(width: 10,),
+              Column(
+                children: [
+                  Text(userName, style: const TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.w500)),
+                  const SizedBox(height: 10,),
+                  Text(userEmail, style: const TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.w300)),
+                ],
+              )
+            ],
+          ),
+        ),              
+      )
+  );
+
 }
 
 
