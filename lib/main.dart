@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'pages/home_page.dart';
+import 'package:kejani/pages/landing_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,12 +12,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Kejani',
       theme: ThemeData(
 
         primarySwatch: Colors.blue,
       ),
-      home: const HomePage(),
+      home: const LandingPage(),
     );
   }
 }
