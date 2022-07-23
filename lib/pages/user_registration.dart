@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kejani/constants/app_colors.dart';
+import 'package:kejani/pages/user_login.dart';
 
 
 class UserRegistration extends StatelessWidget {
@@ -92,7 +93,7 @@ class UserRegistration extends StatelessWidget {
                          const Text("Already have an account? "),
                          GestureDetector(
                            onTap: (){
-                             Navigator.push(context, MaterialPageRoute(builder: (context) =>UserRegistration()));
+                             Navigator.push(context, MaterialPageRoute(builder: (context) =>LoginPage()));
                            },
                            child: const Text("Login",style: TextStyle(
                               fontWeight: FontWeight.w600,

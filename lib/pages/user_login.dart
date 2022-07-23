@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kejani/pages/home_page.dart';
 import 'package:kejani/pages/user_registration.dart';
 
 class LoginPage extends StatelessWidget {
@@ -72,7 +73,9 @@ class LoginPage extends StatelessWidget {
                     child: MaterialButton(
                       minWidth: double.infinity,
                       height: 50,
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) =>const HomePage()));
+                      },
                       color: Colors.indigoAccent[400],
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(40)),
