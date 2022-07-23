@@ -64,10 +64,10 @@ class UserRegistration extends StatelessWidget {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(40),
                             border: const Border(
-                                bottom: const BorderSide(color: Colors.black),
-                                top: const BorderSide(color: Colors.black),
-                                right: const BorderSide(color: Colors.black),
-                                left: const BorderSide(color: Colors.black)
+                                bottom: BorderSide(color: Colors.black),
+                                top: BorderSide(color: Colors.black),
+                                right: BorderSide(color: Colors.black),
+                                left: BorderSide(color: Colors.black)
                             )
                         ),
                         child: MaterialButton(
@@ -88,13 +88,18 @@ class UserRegistration extends StatelessWidget {
                     const SizedBox(height: 20,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                         Text("Already have an account? "),
-                         Text("Login",style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16,
-                           color: Colors.green
+                      children:  [
+                         const Text("Already have an account? "),
+                         GestureDetector(
+                           onTap: (){
+                             Navigator.push(context, MaterialPageRoute(builder: (context) =>UserRegistration()));
+                           },
+                           child: const Text("Login",style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16,
+                             color: Colors.green
                         ),),
+                         ),
                       ],
                     )
                   ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kejani/pages/home_page.dart';
+import 'package:kejani/pages/user_login.dart';
 import 'package:kejani/pages/user_registration.dart';
 import '../constants/app_colors.dart';
 
@@ -22,7 +23,7 @@ class _LandingPageState extends State<LandingPage> {
   //navigating to the next activity
   _getHome() async{
     await Future.delayed(const Duration(milliseconds: 2000), (){
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => UserRegistration()));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
     });
 
   }
