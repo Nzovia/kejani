@@ -7,3 +7,5 @@ const paidBillColor = Color(0xFF5CDC12);
 const partiallyPaidBill = Color(0xFF7A6930);
 const buttonColor = Color(0xFF6F35A5);
 const appBackground = Color(0xFFCFD4E7);
+const grey = Color(0xFF525457);
+const green = Color(0xFF2F6B0D);

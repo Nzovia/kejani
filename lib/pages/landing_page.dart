@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kejani/pages/home_page.dart';
+import 'package:kejani/pages/user_registration.dart';
 import '../constants/app_colors.dart';
 
 
@@ -21,7 +22,7 @@ class _LandingPageState extends State<LandingPage> {
   //navigating to the next activity
   _getHome() async{
     await Future.delayed(const Duration(milliseconds: 2000), (){
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => UserRegistration()));
     });
 
   }
@@ -32,6 +33,8 @@ class _LandingPageState extends State<LandingPage> {
       color: widget.background,
       child: Center(
         child: Container(
+          height: 750,
+            width: 750,
             child: Image.asset("assets/images/applogo.png")
         ),
       ),

@@ -3,7 +3,7 @@
    <application
         android:label="kejani"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/applogo">
         <activity
             android:name=".MainActivity"
             android:exported="true"
