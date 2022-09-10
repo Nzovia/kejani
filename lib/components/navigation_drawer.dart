@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../pages/UserProfile.dart';
+import '../pages/loading_cards_page.dart';
 
 class NavigationDrawer extends StatelessWidget {
   final padding = const EdgeInsets.only(left: 10, right: 10, bottom: 0);
@@ -108,7 +109,7 @@ class NavigationDrawer extends StatelessWidget {
         //TODO: Display user details
         break;
       case 1:
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const UserProfile()));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const LoadCreditCard()));
         //TODO: Load your  wallet activity
         break;
       case 2:
