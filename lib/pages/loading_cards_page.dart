@@ -2,8 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/credit_card_widget.dart';
+import 'package:flutter_credit_card/flutter_credit_card.dart';
 
 class LoadCreditCard extends StatefulWidget {
+
   const LoadCreditCard({Key? key}) : super(key: key);
 
   @override
@@ -11,8 +13,19 @@ class LoadCreditCard extends StatefulWidget {
 }
 
 class _LoadCreditCardState extends State<LoadCreditCard> {
+  String cardNumber = '';
+  String expiryDate = '';
+  String cardHolderName = '';
+  String cvvCode = '';
+  bool isCvvFocused = false;
+  bool useGlassMorphism = false;
+  bool useBackgroundImage = false;
+  OutlineInputBorder? border;
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("My Cards"),
@@ -20,15 +33,91 @@ class _LoadCreditCardState extends State<LoadCreditCard> {
         centerTitle: true,
       ),
       body: Container(
-        child: CreditCardWidget(
-          onCreditCardWidgetChange: (CreditCardBrand) {  },
-          cvvCode: '',
-          showBackView: true,
-          cardNumber: '',
-          expiryDate: '',
-          cardHolderName: '',),
-      ),
+        child: Column(
+          children:<Widget> [
+            CreditCardWidget(
+              cardNumber: cardNumber,
+              expiryDate: expiryDate,
+              cardHolderName: cardHolderName,
+              cvvCode: cvvCode,
+              bankName: 'Axis Bank',
+              showBackView: isCvvFocused,
+              cardBgColor: Colors.black,
+              glassmorphismConfig: Glassmorphism.defaultConfig(),
+              // backgroundImage: 'assets/card_bg.png',
+              // backgroundNetworkImage: 'image-url',
+             obscureCardNumber: true,
+              obscureCardCvv: true,
+              isHolderNameVisible: false,
+              height: 175,
+              textStyle: TextStyle(color: Colors.yellowAccent),
+              width: MediaQuery.of(context).size.width,
+              isChipVisible: true,
+              isSwipeGestureEnabled: true,
+              animationDuration: Duration(milliseconds: 1000),
+              customCardTypeIcons: <CustomCardTypeIcon>[
+                CustomCardTypeIcon(
+                  cardType: CardType.mastercard,
+                  cardImage: Image.asset(
+                    'assets/images/mastercard.png',
+                    height: 48,
+                    width: 48,
+                  ),
+                ),
+              ], onCreditCardWidgetChange: (CreditCardBrand ) {  },
 
+            ),
+            Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      CreditCardForm(
+                        formKey: formKey, // Required
+                        onCreditCardModelChange: onCreditCardModelChange, // Required
+                        themeColor: Colors.red,
+                        obscureCvv: true,
+                        obscureNumber: true,
+                        isHolderNameVisible: false,
+                        isCardNumberVisible: false,
+                        isExpiryDateVisible: false,
+                        cardNumberDecoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Number',
+                          hintText: 'XXXX XXXX XXXX XXXX',
+                        ),
+                        expiryDateDecoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Expired Date',
+                          hintText: 'XX/XX',
+                        ),
+                        cvvCodeDecoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'CVV',
+                          hintText: 'XXX',
+                        ),
+                        cardHolderDecoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Card Holder',
+                        ), cardNumber: '', cvvCode: '', cardHolderName: '', expiryDate: '',
+                      ),
+                    ],
+                  ),
+                ))
+  ]
+      )
+
+    )
     );
-  }
+
 }
+  void onCreditCardModelChange(CreditCardModel? creditCardModel) {
+    setState(() {
+      cardNumber = creditCardModel!.cardNumber;
+      expiryDate = creditCardModel.expiryDate;
+      cardHolderName = creditCardModel.cardHolderName;
+      cvvCode = creditCardModel.cvvCode;
+      isCvvFocused = creditCardModel.isCvvFocused;
+    });
+  }
+  }
+
