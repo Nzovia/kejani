@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:kejani/pages/HelpCenter.dart';
+import 'package:kejani/pages/app_settings.dart';
+import 'package:kejani/pages/update_app.dart';
+import 'package:kejani/pages/user_login.dart';
 
 import '../pages/UserProfile.dart';
 import '../pages/loading_cards_page.dart';
@@ -56,9 +60,9 @@ class NavigationDrawer extends StatelessWidget {
                 itemIcon: Icons.settings,
                 onClicked: () => clickedItem(context, 3)
             ),
-            buildMenuItem(itemName: "DarkMode",
-                itemIcon: Icons.dark_mode_outlined,
-                onClicked: () => clickedItem(context, 3)),
+            // buildMenuItem(itemName: "DarkMode",
+            //     itemIcon: Icons.dark_mode_outlined,
+            //     onClicked: () => clickedItem(context, 3)),
             const SizedBox(
               height: 10,
             ),
@@ -113,20 +117,22 @@ class NavigationDrawer extends StatelessWidget {
         //TODO: Load your  wallet activity
         break;
       case 2:
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const UserProfile()));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const HelpCenter()));
         //TODO: Learn more about the app and you can contact us
         break;
       case 3:
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const UserProfile()));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AppSettings()));
         //TODO: opening app settings activity
         break;
       case 4:
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const UserProfile()));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const UpdateApp()));
         //TODO: opening playstore and get new version of the app
         break;
-      case 5:
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const UserProfile()));
-        break;
+      default:
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginPage()));
+      // case 5:
+      //   Navigator.of(context).push(MaterialPageRoute(builder: (context) => const UserProfile()));
+      //   break;
 
     }
 

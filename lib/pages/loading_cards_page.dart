@@ -33,40 +33,58 @@ class _LoadCreditCardState extends State<LoadCreditCard> {
         centerTitle: true,
       ),
       body: Container(
+        color: Colors.grey,
         child: Column(
           children:<Widget> [
+            // CreditCardWidget(
+            //   cardNumber: cardNumber,
+            //   expiryDate: expiryDate,
+            //   cardHolderName: cardHolderName,
+            //   cvvCode: cvvCode,
+            //   bankName: 'EQUITY Bank',
+            //   showBackView: isCvvFocused,
+            //   cardBgColor: Colors.redAccent,
+            //   glassmorphismConfig: Glassmorphism.defaultConfig(),
+            //   // backgroundImage: 'assets/card_bg.png',
+            //   // backgroundNetworkImage: 'image-url',
+            //  obscureCardNumber: true,
+            //   obscureCardCvv: true,
+            //   isHolderNameVisible: false,
+            //   height: 175,
+            //   textStyle: TextStyle(color: Colors.black),
+            //   width: MediaQuery.of(context).size.width,
+            //   isChipVisible: true,
+            //   isSwipeGestureEnabled: true,
+            //   animationDuration: Duration(milliseconds: 1000),
+            //   customCardTypeIcons: <CustomCardTypeIcon>[
+            //     CustomCardTypeIcon(
+            //       cardType: CardType.mastercard,
+            //       cardImage: Image.asset(
+            //         'assets/images/mastercard.png',
+            //         height: 48,
+            //         width: 48,
+            //       ),
+            //     ),
+            //   ], onCreditCardWidgetChange: (CreditCardBrand ) {  },
+            //
+            // ),
             CreditCardWidget(
               cardNumber: cardNumber,
               expiryDate: expiryDate,
               cardHolderName: cardHolderName,
               cvvCode: cvvCode,
-              bankName: 'Axis Bank',
+              bankName: 'EQUITY Bank',
               showBackView: isCvvFocused,
-              cardBgColor: Colors.black,
-              glassmorphismConfig: Glassmorphism.defaultConfig(),
-              // backgroundImage: 'assets/card_bg.png',
-              // backgroundNetworkImage: 'image-url',
-             obscureCardNumber: true,
-              obscureCardCvv: true,
-              isHolderNameVisible: false,
-              height: 175,
-              textStyle: TextStyle(color: Colors.yellowAccent),
-              width: MediaQuery.of(context).size.width,
               isChipVisible: true,
-              isSwipeGestureEnabled: true,
-              animationDuration: Duration(milliseconds: 1000),
-              customCardTypeIcons: <CustomCardTypeIcon>[
-                CustomCardTypeIcon(
-                  cardType: CardType.mastercard,
-                  cardImage: Image.asset(
-                    'assets/images/mastercard.png',
-                    height: 48,
-                    width: 48,
-                  ),
-                ),
-              ], onCreditCardWidgetChange: (CreditCardBrand ) {  },
-
+              cardBgColor: Colors.deepOrangeAccent,
+              obscureCardNumber: true,
+              obscureCardCvv: true,
+              height: 175,
+              textStyle: TextStyle(color: Colors.black),
+              width: MediaQuery.of(context).size.width,
+              animationDuration: Duration(milliseconds: 1000), onCreditCardWidgetChange: (CreditCardBrand ) {  },
             ),
+
             Expanded(
                 child: SingleChildScrollView(
                   child: Column(
