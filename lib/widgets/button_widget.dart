@@ -15,9 +15,15 @@ class ButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RaisedButton(onPressed: onPressed,
-      shape: shapeBorder,
-      color: buttonColor,
+    return ElevatedButton(onPressed: onPressed,
+      style:ButtonStyle(
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                side: BorderSide(color: buttonColor)
+            )
+        ),
+      ),
       child: Text(buttonText, style: const TextStyle(
         fontWeight: FontWeight.w400,
         fontSize: 16,
