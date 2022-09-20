@@ -15,12 +15,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Kejani',
       theme: ThemeData(
-
-        primarySwatch: Colors.blue,
+        primaryColorLight: Colors.greenAccent,
       ),
       home: const LandingPage(),
     );
   }
 }
-
-

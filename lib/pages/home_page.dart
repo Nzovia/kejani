@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:kejani/components/navigation_drawer.dart';
+import 'package:kejani/pages/add_a_billItem.dart';
 import 'package:kejani/pages/bills_summary.dart';
 import 'package:kejani/pages/UserProfile.dart';
 import 'package:kejani/pages/loading_cards_page.dart';
@@ -30,6 +31,14 @@ class _HomePageState extends State<HomePage> {
       child: Scaffold(
         drawerEnableOpenDragGesture: false,
         body: _widgetOptions[_selectedIndex],
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const AddBillItem()));
+          },
+          child: const Icon(Icons.add),
+          backgroundColor: Colors.green,
+        ),
         bottomNavigationBar: Container(
           decoration: const BoxDecoration(
               color: Colors.white,

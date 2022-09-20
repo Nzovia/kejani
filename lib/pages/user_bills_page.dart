@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kejani/pages/notifications_page.dart';
 import 'package:kejani/pages/tabs/paid_bills.dart';
 import 'package:kejani/pages/tabs/pending_bills.dart';
 
@@ -39,7 +40,12 @@ class _UserBillsState extends State<UserBills> {
             ),
             actions: [
               IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => NotificationsPage()));
+                  },
                   icon: const Icon(
                     Icons.notification_important_rounded,
                     size: 24.0,
