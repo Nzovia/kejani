@@ -37,7 +37,7 @@ class _LoadCreditCardState extends State<LoadCreditCard> {
             ),
           ),
           title: const Text("My Cards"),
-          backgroundColor: Colors.blue,
+          backgroundColor: Colors.blueGrey,
           centerTitle: true,
         ),
         body: Container(

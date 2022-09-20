@@ -19,7 +19,7 @@ class UserProfile extends StatelessWidget {
             ),
           ),
           title: const Text("Profile"),
-          backgroundColor: Colors.blue,
+          backgroundColor: Colors.blueGrey,
           centerTitle: true,
         ),
         body: Container(

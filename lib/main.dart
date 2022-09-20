@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Kejani',
       theme: ThemeData(
-        primaryColorLight: Colors.greenAccent,
+        primarySwatch: Colors.blueGrey,
       ),
       home: const LandingPage(),
     );

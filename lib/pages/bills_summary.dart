@@ -20,7 +20,7 @@ class UserBillsSummary extends StatelessWidget {
             ),
           ),
           title: const Text("Summary Centre"),
-          backgroundColor: Colors.blue,
+          backgroundColor: Colors.blueGrey,
           centerTitle: true,
         ),
         body: Container(
