@@ -1,8 +1,9 @@
 import "package:flutter/material.dart";
 
-class UserProfile extends StatelessWidget {
-  const UserProfile({Key? key}) : super(key: key);
-
+class UserBillsSummary extends StatelessWidget {
+  const UserBillsSummary({Key? key}) : super(key: key);
+  //Todo: the page will be an accounting of the total of all the bills a user is supposed to pay
+  //Todo: it is more of an invoice and computation
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
@@ -18,7 +19,7 @@ class UserProfile extends StatelessWidget {
               },
             ),
           ),
-          title: const Text("Profile"),
+          title: const Text("Summary Centre"),
           backgroundColor: Colors.blue,
           centerTitle: true,
         ),
@@ -26,7 +27,7 @@ class UserProfile extends StatelessWidget {
           color: Colors.white,
           child: const Center(
             child: Text(
-              "User profile goes here",
+              "Summary CENTER IMPLEMENTATION",
               style: TextStyle(color: Colors.black),
             ),
           ),

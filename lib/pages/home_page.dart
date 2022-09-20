@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:kejani/components/navigation_drawer.dart';
+import 'package:kejani/pages/bills_summary.dart';
+import 'package:kejani/pages/UserProfile.dart';
+import 'package:kejani/pages/loading_cards_page.dart';
 import 'package:kejani/pages/tabs/pending_bills.dart';
+import 'package:kejani/pages/user_bills_page.dart';
 import 'tabs/paid_bills.dart';
 
 class HomePage extends StatefulWidget {
@@ -11,60 +16,53 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int _selectedIndex = 0;
+  static const List<Widget> _widgetOptions = [
+    UserBills(),
+    LoadCreditCard(),
+    UserBillsSummary(),
+    UserProfile(),
+  ];
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
         drawerEnableOpenDragGesture: false,
-        drawer: NavigationDrawer(),
-        appBar: AppBar(
-          leading: Builder(builder: (context) =>
-              IconButton(
-                icon: const Icon(
-                  Icons.menu,
-                  size: 24,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  Scaffold.of(context).openDrawer();
-                },
-              ),
-            ),
-          centerTitle: true,
-          title: const Text(
-            "My Bills",
-            textAlign: TextAlign.center,
-            style: TextStyle(
+        body: _widgetOptions[_selectedIndex],
+        bottomNavigationBar: Container(
+          decoration: const BoxDecoration(
               color: Colors.white,
-              fontSize: 18,
-            ),
-          ),
-          actions: [
-            IconButton(onPressed: (){},
-                icon: const Icon(
-                  Icons.add,
-                  size:24.0,
-                  color: Colors.white,
-                ))
-          ],
-          bottom: const TabBar(
-            tabs: [
-              Tab(
-                text: "Pending",
+              border:
+                  Border(top: BorderSide(color: Colors.black26, width: 1.0))),
+          child: GNav(
+            activeColor: Colors.green,
+            haptic: true,
+            tabs: const [
+              GButton(
+                icon: Icons.home,
+                text: "Home",
               ),
-              Tab(
-                text: "Paid",
-              )
+              GButton(
+                icon: Icons.wallet,
+                text: "Wallet",
+              ),
+              GButton(
+                icon: Icons.summarize_outlined,
+                text: "account",
+              ),
+              GButton(
+                icon: Icons.account_circle_rounded,
+                text: "me",
+              ),
             ],
+            selectedIndex: _selectedIndex,
+            onTabChange: (index) {
+              setState(() {
+                _selectedIndex = index;
+              });
+            },
           ),
-        ),
-        body: const TabBarView(
-          children: [
-            PaidBills(),
-            PendingBills()
-          ],
-
         ),
       ),
     );

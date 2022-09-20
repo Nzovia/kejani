@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kejani/pages/HelpCenter.dart';
+import 'package:kejani/pages/bills_summary.dart';
 import 'package:kejani/pages/app_settings.dart';
 import 'package:kejani/pages/update_app.dart';
 import 'package:kejani/pages/user_login.dart';
@@ -117,7 +117,7 @@ class NavigationDrawer extends StatelessWidget {
         //TODO: Load your  wallet activity
         break;
       case 2:
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const HelpCenter()));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const UserBillsSummary()));
         //TODO: Learn more about the app and you can contact us
         break;
       case 3:
