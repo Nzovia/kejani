@@ -2,7 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:kejani/pages/home_page.dart';
 import 'package:kejani/pages/user_registration.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final _finalKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,13 +58,55 @@ class LoginPage extends StatelessWidget {
                     ],
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 35),
-                    child: Column(
-                      children: [
-                        makeInput(label: "Email"),
-                        makeInput(label: "Password", obsureText: true),
-                      ],
+                    padding: EdgeInsets.symmetric(horizontal: 35),
+                    child: Container(
+                      child: Form(
+                        child: Column(children: [
+                          TextFormField(
+                            style: const TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black87),
+                            decoration: InputDecoration(
+                                contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 0, horizontal: 10),
+                                labelText: "Email",
+                                enabledBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.grey)),
+                                hintText: "Enter your email",
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      width: 1, color: Colors.blue),
+                                  borderRadius: BorderRadius.circular(10),
+                                )),
+                          ),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          TextFormField(
+                            style: const TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black87),
+                            decoration: InputDecoration(
+                                contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 0, horizontal: 10),
+                                labelText: "password",
+                                enabledBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.grey)),
+                                hintText: "Enter your password",
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      width: 1, color: Colors.blue),
+                                  borderRadius: BorderRadius.circular(15),
+                                )),
+                          ),
+                        ]),
+                      ),
                     ),
+                  ),
+                  const SizedBox(
+                    height: 30,
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 40),
@@ -75,7 +123,10 @@ class LoginPage extends StatelessWidget {
                         minWidth: double.infinity,
                         height: 50,
                         onPressed: () {
-                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>const HomePage()));
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const HomePage()));
                         },
                         color: Colors.indigoAccent[400],
                         shape: RoundedRectangleBorder(
@@ -95,7 +146,7 @@ class LoginPage extends StatelessWidget {
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children:  [
+                    children: [
                       const Text("Dont have an account? "),
                       GestureDetector(
                         child: const Text(
@@ -105,8 +156,12 @@ class LoginPage extends StatelessWidget {
                               fontSize: 18,
                               color: Colors.green),
                         ),
-                        onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) =>UserRegistration()),);
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => UserRegistration()),
+                          );
                         },
                       ),
                     ],
