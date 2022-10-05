@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:kejani/components/navigation_drawer.dart';
+import 'package:kejani/pages/UserProfile.dart';
 import 'package:kejani/pages/add_a_billItem.dart';
 import 'package:kejani/pages/bills_summary.dart';
-import 'package:kejani/pages/UserProfile.dart';
-import 'package:kejani/pages/loading_cards_page.dart';
-import 'package:kejani/pages/tabs/pending_bills.dart';
+import 'package:kejani/pages/creditcard.dart';
 import 'package:kejani/pages/user_bills_page.dart';
-import 'tabs/paid_bills.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -18,9 +15,9 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
-  static const List<Widget> _widgetOptions = [
+  static List<Widget> _widgetOptions = [
     UserBills(),
-    LoadCreditCard(),
+    CreditCards(),
     UserBillsSummary(),
     UserProfile(),
   ];

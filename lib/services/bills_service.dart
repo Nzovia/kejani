@@ -3,7 +3,7 @@ import 'package:kejani/model/bills.dart';
 import 'package:http/http.dart';
 
 class BillApiService {
-  final String apiUrl = "http://localhost:8090/api/v1/bills";
+  final String apiUrl = "http://127.0.01:8090/api/v1/bills";
 
   Future<List<Bill>> getBills() async {
     Response res = await get(Uri.parse(apiUrl));
