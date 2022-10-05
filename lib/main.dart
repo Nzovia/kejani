@@ -4,7 +4,7 @@ import 'package:kejani/pages/landing_page.dart';
 import 'package:kejani/services/bills_service.dart';
 
 void setUpLocator() {
-  GetIt.instance.registerSingleton(() => BillService());
+  GetIt.instance.registerSingleton(() => BillApiService());
 }
 
 void main() {

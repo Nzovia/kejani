@@ -36,32 +36,36 @@ class BillsWidget extends StatelessWidget {
                           height: 30,
                           width: 30,
                           decoration: BoxDecoration(
-                            border: Border.all(color: colors),
-                            borderRadius: BorderRadius.circular(100.0)
-                          ),
+                              border: Border.all(color: colors),
+                              borderRadius: BorderRadius.circular(100.0)),
                           child: Icon(billlogo, size: 18, color: colors),
                         ),
                       ),
                     ),
-                    const SizedBox(width: 16,),
+                    const SizedBox(
+                      width: 16,
+                    ),
                     Column(
                       children: [
-                       Texts(typedText: billsName, textColor: Colors.black),
-                        const SizedBox(height: 12.0,),
+                        Texts(typedText: billsName, textColor: Colors.black),
+                        const SizedBox(
+                          height: 12.0,
+                        ),
                         Texts(typedText: date, textColor: Colors.black),
                       ],
                     ),
-                    const SizedBox(width: 16.0,),
-                    ButtonWidget(buttonText: 'Pay',buttonColor: Colors.blue,
-                        shapeBorder: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                         onPressed: () {
-
-
-                         },)
+                    const SizedBox(
+                      width: 16.0,
+                    ),
+                    ButtonWidget(
+                      buttonText: 'Paid',
+                      buttonColor: Colors.blue,
+                      shapeBorder: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      onPressed: () {},
+                    )
                   ],
-
                 ),
               ))),
     );

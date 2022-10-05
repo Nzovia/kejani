@@ -255,12 +255,12 @@ class _AddBillItemState extends State<AddBillItem> {
                           minWidth: double.infinity,
                           height: 45,
                           onPressed: () {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => AllBills(
-                                          billId: "1234",
-                                        )));
+                            // Navigator.pushReplacement(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => AllBills(
+                            //
+                            //             )));
                           },
                           color: Colors.indigoAccent[400],
                           shape: RoundedRectangleBorder(
