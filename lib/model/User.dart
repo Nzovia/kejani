@@ -1,11 +1,13 @@
 class User {
-  final String user_email;
-  final String user_phone;
-  final String user_password;
-  final String user_name;
+  String user_email;
+  String user_phone;
+  String user_name;
+  String user_password;
+  String confirm_password;
 
   User(
-      {required this.user_email,
+      {required this.confirm_password,
+      required this.user_email,
       required this.user_phone,
       required this.user_password,
       required this.user_name});
@@ -15,6 +17,7 @@ class User {
         user_email: json['user_email'] as String,
         user_phone: json['user_phone'] as String,
         user_password: json['user_password'] as String,
+        confirm_password: json['confirm_password'] as String,
         user_name: json['user_name'] as String);
   }
 
