@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kejani/pages/bills_summary.dart';
 import 'package:kejani/pages/app_settings.dart';
-import 'package:kejani/pages/creditcard.dart';
+//import 'package:kejani/pages/creditcard.dart';
 import 'package:kejani/pages/update_app.dart';
 import 'package:kejani/pages/user_login.dart';
 
@@ -112,8 +112,8 @@ class NavigationDrawer extends StatelessWidget {
         //TODO: Display user details
         break;
       case 1:
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => CreditCards()));
+        Navigator.of(context);
+            //.push(MaterialPageRoute(builder: (context) => CreditCards()));
         //TODO: Load your  wallet activity
         break;
       case 2:

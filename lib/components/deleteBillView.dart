@@ -22,4 +22,6 @@ class DeleteBill extends StatelessWidget {
       ],
     );
   }
+
+  FlatButton({required Null Function() onPressed, required Text child}) {}
 }

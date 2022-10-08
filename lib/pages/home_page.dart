@@ -15,7 +15,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
-  static List<Widget> _widgetOptions = [
+  static final List<Widget> _widgetOptions = [
     UserBills(),
     CreditCards(),
     UserBillsSummary(),
