@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "773687042185",
+    "project_id": "kejani-c9c69",
+    "storage_bucket": "kejani-c9c69.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:773687042185:android:bcb75064358f1f030fe658",
+        "android_client_info": {
+          "package_name": "com.example.kejani"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "773687042185-u1f61andjo1lf6iq3dgft157nlbgl5e9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtgBbU5Llrxgd4cpPddr_heLXqL7PFvXA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "773687042185-u1f61andjo1lf6iq3dgft157nlbgl5e9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

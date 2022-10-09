@@ -1,7 +1,7 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:kejani/model/User.dart';
 import 'package:kejani/pages/user_login.dart';
 
@@ -23,20 +23,32 @@ class _UserRegistrationState extends State<UserRegistration> {
   get isEmpty => null;
 
   //create a save function here
-  Future save() async {
-    var res = await http.post(Uri.parse(url),
-        headers: {'Content-Type': 'application/json'},
-        body: json.encode({
-          'email': user.user_email,
-          'name': user.user_name,
-          'phone': user.user_phone,
-          'password': user.user_password,
-          'cpassword': user.confirm_password
-        }));
-    if (res.body != null) {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => LoginPage()));
+  void save() async {
+    BaseOptions options = BaseOptions(
+      baseUrl: url,
+      connectTimeout: 10000,
+      receiveTimeout: 10000,
+    );
+    final Dio dio = new Dio(options);
+    try {
+      var response = await dio.post(url);
+      print(response);
+    } catch (e) {
+      print(e);
     }
+    // var res = await http.post(Uri.parse(url),
+    //     headers: {'Content-Type': 'application/json'},
+    //     body: json.encode({
+    //       'email': user.user_email,
+    //       'name': user.user_name,
+    //       'phone': user.user_phone,
+    //       'password': user.user_password,
+    //       'cpassword': user.confirm_password
+    //     }));
+    // if (res.body != null) {
+    //   Navigator.push(
+    //       context, MaterialPageRoute(builder: (context) => LoginPage()));
+    // }
   }
 
   @override

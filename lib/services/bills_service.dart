@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'package:kejani/model/bills.dart';
-import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
 
 class BillApiService {
-  final String apiUrl = "http://127.0.01:8090/api/v1/bills";
+  final String apiUrl = "http://192.168.43.94:8090/api/v1/bills";
 
   Future<List<Bill>> getBills() async {
-    Response res = await get(Uri.parse(apiUrl));
+    var res = await http.get(Uri.parse(apiUrl));
 
     if (res.statusCode == 200) {
       List<dynamic> body = jsonDecode(res.body);

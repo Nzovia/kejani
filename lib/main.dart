@@ -1,14 +1,10 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:kejani/pages/landing_page.dart';
-import 'package:kejani/services/bills_service.dart';
 
-void setUpLocator() {
-  GetIt.instance.registerSingleton(() => BillApiService());
-}
-
-void main() {
-  setUpLocator();
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 

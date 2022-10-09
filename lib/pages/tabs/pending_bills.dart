@@ -16,8 +16,23 @@ class _PendingBillsState extends State<PendingBills> {
   List<Bill> billsList = [];
 
   @override
+  void initState() {
+    super.initState();
+    loadList();
+  }
+
+  Future loadList() {
+    Future<List<Bill>> bills = api.getBills();
+    bills.then((billsList) {
+      setState(() {
+        this.billsList = billsList;
+      });
+    });
+    return bills;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    billsList ??= <Bill>[];
     return Scaffold(
       body: Container(
         child: FutureBuilder(
@@ -31,15 +46,5 @@ class _PendingBillsState extends State<PendingBills> {
             }),
       ),
     );
-  }
-
-  Future loadList() {
-    Future<List<Bill>> futureCases = api.getBills();
-    futureCases.then((billsList) {
-      setState(() {
-        this.billsList = billsList;
-      });
-    });
-    return futureCases;
   }
 }
