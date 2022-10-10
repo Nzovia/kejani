@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kejani/pages/home_page.dart';
 import 'package:kejani/pages/user_registration.dart';
 
@@ -9,13 +11,14 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final _finalKey = GlobalKey();
-  final FocusNode _uidFocusNode = FocusNode();
-  Future<FirebaseApp> _initializeFirebase() async {
-    FirebaseApp firebaseApp = await Firebase.initializeApp();
+  //form key for validation
+  final _formKey = GlobalKey<FormState>();
+  //editing controllers
+  final TextEditingController emailController = new TextEditingController();
+  final TextEditingController passwordController = new TextEditingController();
 
-    return firebaseApp;
-  }
+  //calling firebase
+  final _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +74,31 @@ class _LoginPageState extends State<LoginPage> {
                       child: Form(
                         child: Column(children: [
                           TextFormField(
+                            autofocus: false,
+                            controller: emailController,
+                            keyboardType: TextInputType.emailAddress,
+
+                            //validating mail
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return ("Email is required");
+                              }
+                              //reg expression for email validation
+                              if (!RegExp(
+                                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`"
+                                      r"{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                  .hasMatch(value)) {
+                                return ("Kindly enter a valid email!!");
+                              }
+
+                              //if the field has nothing
+                              return null;
+                            },
+
+                            onSaved: (value) {
+                              emailController.text = value!;
+                            },
+                            textInputAction: TextInputAction.next,
                             style: const TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w400,
@@ -91,7 +119,29 @@ class _LoginPageState extends State<LoginPage> {
                           const SizedBox(
                             height: 16,
                           ),
+
+                          //password textField
                           TextFormField(
+                            autofocus: false,
+                            controller: passwordController,
+                            obscureText: true,
+
+                            //password validator, telling the user to enter minimum of six characters
+                            validator: (value) {
+                              RegExp regExp = RegExp(r'^>{6},$');
+                              if (value!.isEmpty) {
+                                return ("password is required");
+                              }
+                              if (regExp.hasMatch(value)) {
+                                return ("enter password, minimum of 6 characters");
+                              }
+                              //if the field has nothing
+                              return null;
+                            },
+                            onSaved: (value) {
+                              passwordController.text = value!;
+                            },
+                            textInputAction: TextInputAction.done,
                             style: const TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w400,
@@ -131,10 +181,7 @@ class _LoginPageState extends State<LoginPage> {
                         minWidth: double.infinity,
                         height: 50,
                         onPressed: () {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const HomePage()));
+                          login(emailController.text, passwordController.text);
                         },
                         color: Colors.indigoAccent[400],
                         shape: RoundedRectangleBorder(
@@ -182,36 +229,20 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-}
 
-Widget makeInput({label, obsureText = false}) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Text(
-        label,
-        style: const TextStyle(
-            fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
-      ),
-      const SizedBox(
-        height: 5,
-      ),
-      TextField(
-        obscureText: obsureText,
-        decoration: const InputDecoration(
-          contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: Colors.grey,
-            ),
-          ),
-          border:
-              OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
-        ),
-      ),
-      const SizedBox(
-        height: 30,
-      )
-    ],
-  );
+  //login function
+  void login(String email, String password) async {
+    if (_formKey.currentState!.validate()) {
+      await _auth
+          .signInWithEmailAndPassword(email: email, password: password)
+          .then((uid) => {
+                Fluttertoast.showToast(msg: "login successful"),
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => const HomePage()))
+              })
+          .catchError((exception) {
+        Fluttertoast.showToast(msg: exception!.message);
+      });
+    }
+  }
 }
