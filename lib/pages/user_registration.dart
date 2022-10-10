@@ -134,9 +134,9 @@ class _UserRegistrationState extends State<UserRegistration> {
 
       //styling the email field
       decoration: InputDecoration(
-          prefixIcon: const Icon(Icons.mail),
+          prefixIcon: const Icon(Icons.phone),
           contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-          hintText: "Email address",
+          hintText: "phone number",
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
           )),
