@@ -1,5 +1,7 @@
 import "package:flutter/material.dart";
 
+import 'home_page.dart';
+
 class UserProfile extends StatelessWidget {
   const UserProfile({Key? key}) : super(key: key);
 
@@ -34,19 +36,10 @@ class UserProfile extends StatelessWidget {
           ),
         ),
         const Text(
-          'User',
+          'User Name',
           style: TextStyle(
             fontFamily: 'SourceSansPro',
             fontSize: 25,
-          ),
-        ),
-        Text(
-          'Welcome',
-          style: TextStyle(
-            fontSize: 20,
-            fontFamily: 'SourceSansPro',
-            color: Colors.red[400],
-            letterSpacing: 2.5,
           ),
         ),
         SizedBox(
@@ -56,7 +49,40 @@ class UserProfile extends StatelessWidget {
             color: Colors.teal[100],
           ),
         ),
-        const Text("View list of bills"),
+        const Text(
+            "View"
+        ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => HomePage()));
+
+                },
+                child: const Text(
+                  "List of pending bills",
+                  style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16,
+                      color: Colors.green),
+                ),
+              ),
+        Card(
+            color: Colors.white,
+            margin:
+            const EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
+            child: ListTile(
+              leading: Icon(
+                Icons.email,
+                color: Colors.teal[900],
+              ),
+              title: const Text(
+                'google.com@gmail.com',
+                style:
+                TextStyle(fontFamily: 'BalooBhai', fontSize: 20.0),
+              ),
+            )),
         Card(
             color: Colors.white,
             margin:
@@ -67,7 +93,7 @@ class UserProfile extends StatelessWidget {
                 color: Colors.teal[900],
               ),
               title: const Text(
-                '+91 85465XXX8XX',
+                '+254 XXXXXXXXX',
                 style:
                 TextStyle(fontFamily: 'BalooBhai', fontSize: 20.0),
               ),
@@ -78,11 +104,11 @@ class UserProfile extends StatelessWidget {
           const EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
           child: ListTile(
             leading: Icon(
-              Icons.cake,
+              Icons. wallet,
               color: Colors.teal[900],
             ),
             title: const Text(
-              '08-05-1995',
+              "Account balance : Kshs. 300,000",
               style: TextStyle(fontSize: 20.0, fontFamily: 'Neucha'),
             ),
           ),
