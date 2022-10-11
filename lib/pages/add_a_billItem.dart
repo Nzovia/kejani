@@ -95,28 +95,6 @@ class _AddBillItemState extends State<AddBillItem> {
                         child: Column(
                           children: [
                             TextFormField(
-                              style: const TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.black87),
-                              decoration: InputDecoration(
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      vertical: 0, horizontal: 10),
-                                  labelText: "billId",
-                                  enabledBorder: const OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.grey)),
-                                  hintText: "Enter billId",
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        width: 1, color: Colors.blue),
-                                    borderRadius: BorderRadius.circular(10),
-                                  )),
-                            ),
-                            const SizedBox(
-                              height: 16,
-                            ),
-                            TextFormField(
                               autofocus: false,
                               controller: amountController,
                               keyboardType: TextInputType.number,
@@ -353,8 +331,8 @@ class _AddBillItemState extends State<AddBillItem> {
     Bill bill = Bill();
 
     //sending these values
-    bill.amount = amountController.value as int?;
-    bill.balance = balanceControler.value as int?;
+    bill.amount = amountController.text;
+    bill.balance = balanceControler.text;
     bill.logo = logoController.text;
     bill.name = nameController.text;
     bill.priority = priorityControler.text;
@@ -362,7 +340,7 @@ class _AddBillItemState extends State<AddBillItem> {
     bill.paymentDate = paymentDateController.text;
 
     //add firebaseFirestore
-    await firebaseFirestore.collection("bills").add(bill.toMap());
+    await firebaseFirestore.collection("users").doc("bills").set(bill.toMap());
     Fluttertoast.showToast(msg: "new bill added");
     //Todo: loading circular thing for 3 seconds and pop for sucess
     //navigating to logicScreen

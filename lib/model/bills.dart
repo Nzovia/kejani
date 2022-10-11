@@ -1,19 +1,20 @@
 class Bill {
-  int? amount;
-  int? balance;
+  String? amount;
+  String? balance;
   String? logo;
   String? name;
   String? priority;
   String? status;
   String? paymentDate;
 
-  Bill({ this.amount,
-    this.balance,
-    this.logo,
-    this.name,
-    this.priority,
-    this.status,
-    this.paymentDate});
+  Bill(
+      {this.amount,
+      this.balance,
+      this.logo,
+      this.name,
+      this.priority,
+      this.status,
+      this.paymentDate});
 
 //receive data from server
   factory Bill.fromMap(map) {
@@ -31,7 +32,7 @@ class Bill {
 //sending data to the server
   Map<String, dynamic> toMap() {
     return {
-      'amount': amount,
+      'amount': int.parse(amount.toString()),
       'name': name,
       'balance': balance,
       'logo': logo,

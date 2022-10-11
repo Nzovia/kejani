@@ -1,30 +1,37 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:kejani/pages/add_a_billItem.dart';
 import 'package:kejani/widgets/button_widget.dart';
 
 import '../../model/bills.dart';
-import '../../services/bills_service.dart';
 
 class AllBills extends StatefulWidget {
-  // final String billId;
-  final List<Bill> bills;
-
-  const AllBills({Key? key, required this.bills}) : super(key: key);
+  const AllBills({Key? key}) : super(key: key);
 
   @override
   State<AllBills> createState() => _AllBillsState();
 }
 
 class _AllBillsState extends State<AllBills> {
-  get bills => null;
-  // final BillApiService api = BillApiService();
-  late List<Bill> billsList;
+  //list of all the bills
+  List<Object> _billsList = [];
+  //firebase
+  final billsDocument = FirebaseFirestore.instance.collection('bills');
+
+  //initializing bills
+  Bill bill = Bill();
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    getAllBills();
+  }
 
   @override
   Widget build(BuildContext context) {
-    if (billsList == null) {
-      billsList = <Bill>[];
-    }
     return Scaffold(
       // appBar: AppBar(
       //   title: const Text("List of Bills"),
@@ -71,8 +78,8 @@ class _AllBillsState extends State<AllBills> {
             },
             child: ListTile(
                 leading: Icon(Icons.paypal_sharp),
-                title: Text(bills[index].billName),
-                subtitle: Text(bills[index].billAmount),
+                title: Text("${bill.name}"),
+                subtitle: Text("${bill.amount}"),
                 trailing: ButtonWidget(
                   onPressed: () {},
                   buttonText: 'Pay',
@@ -83,8 +90,23 @@ class _AllBillsState extends State<AllBills> {
                 )),
           ));
         },
-        itemCount: bills == null ? 0 : bills.length,
+        itemCount: _billsList.length,
+        // itemCount: bills == null ? 0 : bills.length,
       ),
     );
+  }
+
+  Future getAllBills() async {
+    var uid = FirebaseAuth.instance.currentUser?.uid;
+    //read data from firebase;
+    var data = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('bills')
+        .get();
+
+    setState(() {
+      _billsList = List.from(data.docs.map((doc) => Bill.fromMap(doc)));
+    });
   }
 }

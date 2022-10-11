@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kejani/pages/bills/allbills.dart';
 import 'package:kejani/pages/notifications_page.dart';
 import 'package:kejani/pages/tabs/paid_bills.dart';
 import 'package:kejani/pages/tabs/pending_bills.dart';
