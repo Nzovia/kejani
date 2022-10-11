@@ -72,6 +72,7 @@ class _LoginPageState extends State<LoginPage> {
                     padding: EdgeInsets.symmetric(horizontal: 35),
                     child: Container(
                       child: Form(
+                        key: _formKey,
                         child: Column(children: [
                           TextFormField(
                             autofocus: false,
@@ -99,10 +100,10 @@ class _LoginPageState extends State<LoginPage> {
                               emailController.text = value!;
                             },
                             textInputAction: TextInputAction.next,
-                            style: const TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.black87),
+                            // style: const TextStyle(
+                            //     fontSize: 15,
+                            //     fontWeight: FontWeight.w400,
+                            //     color: Colors.black87),
                             decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.symmetric(
                                     vertical: 0, horizontal: 10),
