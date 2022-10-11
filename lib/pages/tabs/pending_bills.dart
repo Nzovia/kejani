@@ -12,7 +12,6 @@ class PendingBills extends StatefulWidget {
 }
 
 class _PendingBillsState extends State<PendingBills> {
-  final BillApiService api = BillApiService();
   List<Bill> billsList = [];
 
   @override
@@ -22,7 +21,7 @@ class _PendingBillsState extends State<PendingBills> {
   }
 
   Future loadList() {
-    Future<List<Bill>> bills = api.getBills();
+    Future<List<Bill>> bills;
     bills.then((billsList) {
       setState(() {
         this.billsList = billsList;
