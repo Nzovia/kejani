@@ -17,7 +17,7 @@ class AllBills extends StatefulWidget {
 
 class _AllBillsState extends State<AllBills> {
   get bills => null;
-  final BillApiService api = BillApiService();
+  // final BillApiService api = BillApiService();
   late List<Bill> billsList;
 
   @override
