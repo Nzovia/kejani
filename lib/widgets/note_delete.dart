@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +13,7 @@ class BillDelete extends StatelessWidget {
       title: const Text("WARNING", style: TextStyle(color: Colors.red)),
       content: const Text("Are you sure want to delete the bill"),
       actions: [
-        FlatButton(
+        TextButton(
             onPressed: () async {
               Navigator.of(context).pop(true);
               await FirebaseFirestore.instance
@@ -29,7 +27,7 @@ class BillDelete extends StatelessWidget {
               'Yes',
               style: TextStyle(color: Colors.red),
             )),
-        FlatButton(
+        TextButton(
             onPressed: () {
               Navigator.of(context).pop(false);
             },
