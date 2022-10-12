@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:kejani/pages/user_login.dart';
 
 import '../model/User.dart';
 import 'home_page.dart';
@@ -132,10 +134,35 @@ class _UserProfileState extends State<UserProfile> {
                       style: TextStyle(fontSize: 20.0, fontFamily: 'Neucha'),
                     ),
                   ),
-                )
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                ActionChip(
+                    backgroundColor: Colors.transparent,
+                    label: const Text(
+                      "log Out account",
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 18,
+                      ),
+                    ),
+                    onPressed: () {
+                      logout(context);
+                    }),
               ],
             ),
           ),
         ),
       );
+
+  //logout function
+  Future<void> logout(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+    Fluttertoast.showToast(msg: "logOut successful");
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (context) => LoginPage()),
+    );
+  }
 }

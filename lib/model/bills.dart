@@ -1,38 +1,38 @@
 class Bill {
+  String? name;
   String? amount;
   String? balance;
   String? logo;
-  String? name;
   String? priority;
   String? status;
   String? paymentDate;
 
   Bill(
-      {this.amount,
+      {this.name,
+      this.amount,
       this.balance,
       this.logo,
-      this.name,
       this.priority,
       this.status,
       this.paymentDate});
 
 //receive data from server
-  factory Bill.fromMap(map) {
+  factory Bill.fromSnapshot(snapshot) {
     return Bill(
-      amount: map['amount'],
-      name: map['name'],
-      balance: map['balance'],
-      logo: map['logo'],
-      priority: map['priority'],
-      status: map['status'],
-      paymentDate: map['paymentDate'],
+      name: snapshot['name'] as String,
+      amount: snapshot['amount'] as String,
+      balance: snapshot['balance'] as String,
+      logo: snapshot['logo'] as String,
+      priority: snapshot['priority'] as String,
+      status: snapshot['status'] as String,
+      paymentDate: snapshot['paymentDate'] as String,
     );
   }
 
 //sending data to the server
   Map<String, dynamic> toMap() {
     return {
-      'amount': int.parse(amount.toString()),
+      'amount': amount,
       'name': name,
       'balance': balance,
       'logo': logo,

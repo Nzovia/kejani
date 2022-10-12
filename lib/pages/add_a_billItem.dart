@@ -22,6 +22,9 @@ class _AddBillItemState extends State<AddBillItem> {
   //firebase
   FirebaseStorage storageReference = FirebaseStorage.instance;
 
+  //logined user
+  User? user = FirebaseAuth.instance.currentUser;
+
   bool showSpinner = false;
   //editing controllers
   final nameController = new TextEditingController();
@@ -96,8 +99,33 @@ class _AddBillItemState extends State<AddBillItem> {
                           children: [
                             TextFormField(
                               autofocus: false,
+                              controller: nameController,
+                              keyboardType: TextInputType.name,
+                              style: const TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black87),
+                              decoration: InputDecoration(
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 0, horizontal: 10),
+                                  labelText: "billName",
+                                  enabledBorder: const OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.grey)),
+                                  hintText: "Enter billName",
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        width: 1, color: Colors.blue),
+                                    borderRadius: BorderRadius.circular(10),
+                                  )),
+                            ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            TextFormField(
+                              autofocus: false,
                               controller: amountController,
-                              keyboardType: TextInputType.number,
+                              keyboardType: TextInputType.text,
                               style: const TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w400,
@@ -160,31 +188,6 @@ class _AddBillItemState extends State<AddBillItem> {
                                       borderSide:
                                           BorderSide(color: Colors.grey)),
                                   hintText: "Enter your billLogo",
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        width: 1, color: Colors.blue),
-                                    borderRadius: BorderRadius.circular(10),
-                                  )),
-                            ),
-                            const SizedBox(
-                              height: 16,
-                            ),
-                            TextFormField(
-                              autofocus: false,
-                              controller: nameController,
-                              keyboardType: TextInputType.name,
-                              style: const TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.black87),
-                              decoration: InputDecoration(
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      vertical: 0, horizontal: 10),
-                                  labelText: "billName",
-                                  enabledBorder: const OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.grey)),
-                                  hintText: "Enter billName",
                                   focusedBorder: OutlineInputBorder(
                                     borderSide: const BorderSide(
                                         width: 1, color: Colors.blue),
@@ -340,7 +343,11 @@ class _AddBillItemState extends State<AddBillItem> {
     bill.paymentDate = paymentDateController.text;
 
     //add firebaseFirestore
-    await firebaseFirestore.collection("users").doc("bills").set(bill.toMap());
+    await firebaseFirestore
+        .collection("users")
+        .doc(user?.uid)
+        .collection("bills")
+        .add(bill.toMap());
     Fluttertoast.showToast(msg: "new bill added");
     //Todo: loading circular thing for 3 seconds and pop for sucess
     //navigating to logicScreen

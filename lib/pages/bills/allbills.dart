@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:kejani/pages/add_a_billItem.dart';
 import 'package:kejani/widgets/button_widget.dart';
@@ -17,11 +16,30 @@ class AllBills extends StatefulWidget {
 class _AllBillsState extends State<AllBills> {
   //list of all the bills
   List<Object> _billsList = [];
-  //firebase
-  final billsDocument = FirebaseFirestore.instance.collection('bills');
+
+  //current user
+  User? user = FirebaseAuth.instance.currentUser;
 
   //initializing bills
   Bill bill = Bill();
+
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   fetchBills();
+  // }
+  //
+  // fetchBills() async {
+  //   dynamic results = await getAllBills();
+  //   if (results == null) {
+  //     return Text("unable to load data");
+  //   } else {
+  //     setState(() {
+  //       _billsList = results;
+  //     });
+  //   }
+  // }
 
   @override
   void didChangeDependencies() {
@@ -33,43 +51,13 @@ class _AllBillsState extends State<AllBills> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text("List of Bills"),
-      // ),
       body: ListView.separated(
-        separatorBuilder: (_, build) => const Divider(
+        separatorBuilder: (context, build) => const Divider(
           height: 1,
           color: Colors.blueGrey,
         ),
-        itemBuilder: (_, index) {
-          // return Dismissible(
-          //   key: ValueKey(bills[index].billId),
-          //   direction: DismissDirection.startToEnd,
-          //   onDismissed: (direction) {},
-          //   confirmDismiss: (direction) async {
-          //     final result = await showDialog(
-          //         context: context, builder: (_) => const DeleteBill());
-          //     return result;
-          //   },
-          //   background: Container(
-          //     color: Colors.red,
-          //     padding: const EdgeInsets.only(left: 16),
-          //     child: const Align(
-          //       child: Icon(
-          //         Icons.delete,
-          //         color: Colors.white,
-          //       ),
-          //       alignment: Alignment.centerLeft,
-          //     ),
-          //   ),
-          //   child: ListTile(
-          //       title: const Text("Hello"),
-          //       subtitle: const Text("billList"),
-          //       onTap: () {
-          //         Navigator.of(context)
-          //             .push(MaterialPageRoute(builder: (_) => AddBillItem()));
-          //       }),
-          // );
+        itemCount: _billsList.length,
+        itemBuilder: (context, index) {
           return Card(
               child: InkWell(
             onTap: () {
@@ -90,23 +78,38 @@ class _AllBillsState extends State<AllBills> {
                 )),
           ));
         },
-        itemCount: _billsList.length,
-        // itemCount: bills == null ? 0 : bills.length,
       ),
     );
   }
 
   Future getAllBills() async {
-    var uid = FirebaseAuth.instance.currentUser?.uid;
     //read data from firebase;
     var data = await FirebaseFirestore.instance
         .collection('users')
-        .doc(uid)
+        .doc(user?.uid)
         .collection('bills')
+        .orderBy('name', descending: true)
         .get();
 
     setState(() {
-      _billsList = List.from(data.docs.map((doc) => Bill.fromMap(doc)));
+      _billsList = List.from(data.docs.map((doc) => Bill.fromSnapshot(doc)));
     });
+    return data;
   }
+  // Future getBillsList() async {
+  //   List billList = [];
+  //   try {
+  //     await FirebaseFirestore.instance
+  //         .collection('bills')
+  //         .get()
+  //         .then((querySnapshot) {
+  //       querySnapshot.docs.forEach((element) {
+  //         billList.add(element.data());
+  //       });
+  //     });
+  //   } catch (e) {
+  //     print(e.toString());
+  //     return null;
+  //   }
+  // }
 }
