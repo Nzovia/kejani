@@ -15,7 +15,7 @@ class AllBills extends StatefulWidget {
 
 class _AllBillsState extends State<AllBills> {
   //list of all the bills
-  List<Object> _billsList = [];
+  List billsList = [];
 
   //current user
   User? user = FirebaseAuth.instance.currentUser;
@@ -23,30 +23,30 @@ class _AllBillsState extends State<AllBills> {
   //initializing bills
   Bill bill = Bill();
 
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   fetchBills();
-  // }
-  //
-  // fetchBills() async {
-  //   dynamic results = await getAllBills();
-  //   if (results == null) {
-  //     return Text("unable to load data");
-  //   } else {
-  //     setState(() {
-  //       _billsList = results;
-  //     });
-  //   }
-  // }
-
   @override
-  void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
-    getAllBills();
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fetchBills();
   }
+
+  fetchBills() async {
+    dynamic results = await getAllBills();
+    if (results == null) {
+      return Text("unable to load data");
+    } else {
+      setState(() {
+        billsList = results;
+      });
+    }
+  }
+
+  // @override
+  // void didChangeDependencies() {
+  //   // TODO: implement didChangeDependencies
+  //   super.didChangeDependencies();
+  //   getAllBills();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +56,7 @@ class _AllBillsState extends State<AllBills> {
           height: 1,
           color: Colors.blueGrey,
         ),
-        itemCount: _billsList.length,
+        itemCount: billsList.length,
         itemBuilder: (context, index) {
           return Card(
               child: InkWell(
@@ -66,8 +66,8 @@ class _AllBillsState extends State<AllBills> {
             },
             child: ListTile(
                 leading: Icon(Icons.paypal_sharp),
-                title: Text("${bill.name}"),
-                subtitle: Text("${bill.amount}"),
+                title: Text("${billsList[index].name}"),
+                subtitle: Text("${billsList[index].amount}"),
                 trailing: ButtonWidget(
                   onPressed: () {},
                   buttonText: 'Pay',
@@ -92,9 +92,9 @@ class _AllBillsState extends State<AllBills> {
         .get();
 
     setState(() {
-      _billsList = List.from(data.docs.map((doc) => Bill.fromSnapshot(doc)));
+      billsList = List.from(data.docs.map((doc) => Bill.fromSnapshot(doc)));
     });
-    return data;
+    // return data;
   }
   // Future getBillsList() async {
   //   List billList = [];
