@@ -106,7 +106,7 @@ class _AllBillsState extends State<AllBills> {
       );
 
   buildSwipeRight() => Container(
-        alignment: Alignment.centerRight,
+        alignment: Alignment.centerLeft,
         padding: const EdgeInsets.symmetric(horizontal: 20),
         color: Colors.red,
         child: const Icon(Icons.delete),
