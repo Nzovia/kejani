@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kejani/pages/add_a_billItem.dart';
 import 'package:kejani/widgets/button_widget.dart';
+import 'package:kejani/widgets/note_delete.dart';
 
 import '../../model/bills.dart';
 
@@ -41,13 +42,6 @@ class _AllBillsState extends State<AllBills> {
     }
   }
 
-  // @override
-  // void didChangeDependencies() {
-  //   // TODO: implement didChangeDependencies
-  //   super.didChangeDependencies();
-  //   getAllBills();
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,25 +52,33 @@ class _AllBillsState extends State<AllBills> {
         ),
         itemCount: billsList.length,
         itemBuilder: (context, index) {
-          return Card(
+          return Dismissible(
+              key: ValueKey(index),
+              direction: DismissDirection.startToEnd,
+              background: buildSwipeRight(),
+              secondaryBackground: buildSwipeLeft(),
+              onDismissed: (direction) {},
+              confirmDismiss: (direction) async {
+                showDialog(context: context, builder: (_) => BillDelete());
+              },
               child: InkWell(
-            onTap: () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (_) => AddBillItem()));
-            },
-            child: ListTile(
-                leading: Icon(Icons.paypal_sharp),
-                title: Text("${billsList[index].name}"),
-                subtitle: Text("${billsList[index].amount}"),
-                trailing: ButtonWidget(
-                  onPressed: () {},
-                  buttonText: 'Pay',
-                  buttonColor: Colors.red,
-                  shapeBorder: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                )),
-          ));
+                onTap: () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (_) => AddBillItem()));
+                },
+                child: ListTile(
+                    leading: Icon(Icons.paypal_sharp),
+                    title: Text("${billsList[index].name}"),
+                    subtitle: Text("${billsList[index].amount}"),
+                    trailing: ButtonWidget(
+                      onPressed: () {},
+                      buttonText: 'Pay',
+                      buttonColor: Colors.red,
+                      shapeBorder: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    )),
+              ));
         },
       ),
     );
@@ -94,22 +96,19 @@ class _AllBillsState extends State<AllBills> {
     setState(() {
       billsList = List.from(data.docs.map((doc) => Bill.fromSnapshot(doc)));
     });
-    // return data;
   }
-  // Future getBillsList() async {
-  //   List billList = [];
-  //   try {
-  //     await FirebaseFirestore.instance
-  //         .collection('bills')
-  //         .get()
-  //         .then((querySnapshot) {
-  //       querySnapshot.docs.forEach((element) {
-  //         billList.add(element.data());
-  //       });
-  //     });
-  //   } catch (e) {
-  //     print(e.toString());
-  //     return null;
-  //   }
-  // }
+
+  buildSwipeLeft() => Container(
+        alignment: Alignment.centerLeft,
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        color: Colors.green,
+        child: const Icon(Icons.edit),
+      );
+
+  buildSwipeRight() => Container(
+        alignment: Alignment.centerRight,
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        color: Colors.red,
+        child: const Icon(Icons.delete),
+      );
 }
