@@ -33,7 +33,7 @@ class _AddBillItemState extends State<AddBillItem> {
   final logoController = new TextEditingController();
   final priorityControler = new TextEditingController();
   final statusController = new TextEditingController();
-  final paymentDateController = new TextEditingController();
+  final dateInputController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -249,13 +249,14 @@ class _AddBillItemState extends State<AddBillItem> {
                             ),
                             TextFormField(
                               autofocus: false,
-                              controller: paymentDateController,
+                              controller: dateInputController,
                               keyboardType: TextInputType.name,
                               style: const TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w400,
                                   color: Colors.black87),
                               decoration: InputDecoration(
+                                  icon: Icon(Icons.calendar_today),
                                   contentPadding: const EdgeInsets.symmetric(
                                       vertical: 0, horizontal: 10),
                                   labelText: "paymentDate",
@@ -268,6 +269,15 @@ class _AddBillItemState extends State<AddBillItem> {
                                         width: 1, color: Colors.blue),
                                     borderRadius: BorderRadius.circular(10),
                                   )),
+                              readOnly: true,
+                              onTap: ()async{
+                                DateTime? pickedDate = await showDatePicker(
+                                    context: context, initialDate: DateTime.now(),
+                                    firstDate: DateTime(200),
+                                    lastDate: DateTime(2021),
+                                );
+                              }
+                              
                             ),
                             const SizedBox(
                               height: 24,
@@ -340,7 +350,7 @@ class _AddBillItemState extends State<AddBillItem> {
     bill.name = nameController.text;
     bill.priority = priorityControler.text;
     bill.status = statusController.text;
-    bill.paymentDate = paymentDateController.text;
+    bill.paymentDate = dateInputController.text;
 
     //add firebaseFirestore
     await firebaseFirestore
