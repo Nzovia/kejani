@@ -34,6 +34,12 @@ class _AddBillItemState extends State<AddBillItem> {
   final priorityControler = new TextEditingController();
   final statusController = new TextEditingController();
   final dateInputController = new TextEditingController();
+  var options = [
+    'Pending',
+    'Paid',
+  ];
+  var _currentItemSelected = "Paid";
+  var Status = "Pending";
 
   @override
   Widget build(BuildContext context) {
@@ -236,7 +242,7 @@ class _AddBillItemState extends State<AddBillItem> {
                                   labelText: "billStatus",
                                   enabledBorder: const OutlineInputBorder(
                                       borderSide:
-                                          BorderSide(color: Colors.grey)),
+                                      BorderSide(color: Colors.grey)),
                                   hintText: "Enter billStatus",
                                   focusedBorder: OutlineInputBorder(
                                     borderSide: const BorderSide(
@@ -244,6 +250,21 @@ class _AddBillItemState extends State<AddBillItem> {
                                     borderRadius: BorderRadius.circular(10),
                                   )),
                             ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text(
+                                  "Enter BillStatus : ",
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+
+                              ],
+                            ),
+
                             const SizedBox(
                               height: 24,
                             ),
