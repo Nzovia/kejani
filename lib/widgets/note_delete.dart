@@ -1,4 +1,6 @@
 
+// ignore_for_file: avoid_print
+
 //import 'dart:html';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -30,7 +32,13 @@ class BillDelete extends StatelessWidget {
             )),
         TextButton(
             onPressed: () {
-              Navigator.of(context).pop(false);
+              final collection = FirebaseFirestore.instance.collection('bills');
+              collection
+                  .doc('billId') // <-- Doc ID to be deleted.
+                  .delete() // <-- Delete
+                  .then((_) => print('Deleted'))
+                  .catchError((error) => print('Delete failed: $error'));
+                  Navigator.of(context).pop(false);
             },
             child: const Text(
               'No',

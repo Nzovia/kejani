@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kejani/pages/home_page.dart';
+import 'package:kejani/pages/reset_password.dart';
 import 'package:kejani/pages/user_registration.dart';
 
 class LoginPage extends StatefulWidget {
@@ -196,6 +197,25 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                     ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  GestureDetector(
+                    child: const Text(
+                      "Forgot password!",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 18,
+                          color: Colors.green),
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ResetPassword()),
+                      );
+                    },
                   ),
                   const SizedBox(
                     height: 20,
