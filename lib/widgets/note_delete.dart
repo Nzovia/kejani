@@ -1,10 +1,10 @@
-
 // ignore_for_file: avoid_print
 
 //import 'dart:html';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
 class BillDelete extends StatelessWidget {
   const BillDelete({Key? key}) : super(key: key);
 
@@ -21,7 +21,7 @@ class BillDelete extends StatelessWidget {
               Navigator.of(context).pop(true);
               await FirebaseFirestore.instance
                   .collection('users')
-                  .doc(user?.uid)
+                  .doc('uid')
                   .collection('bills')
                   .doc('billId')
                   .delete();
@@ -32,13 +32,7 @@ class BillDelete extends StatelessWidget {
             )),
         TextButton(
             onPressed: () {
-              final collection = FirebaseFirestore.instance.collection('bills');
-              collection
-                  .doc('billId') // <-- Doc ID to be deleted.
-                  .delete() // <-- Delete
-                  .then((_) => print('Deleted'))
-                  .catchError((error) => print('Delete failed: $error'));
-                  Navigator.of(context).pop(false);
+              Navigator.of(context).pop(false);
             },
             child: const Text(
               'No',

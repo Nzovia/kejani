@@ -69,7 +69,8 @@ class _AllBillsState extends State<AllBills> {
                 child: ListTile(
                     leading: Icon(Icons.paypal_sharp),
                     title: Text("${billsList[index].name}"),
-                    subtitle: Text("${billsList[index].amount}"),
+                    subtitle:
+                        Text("Unpaid Balance: KSh. ${billsList[index].amount}"),
                     trailing: ButtonWidget(
                       onPressed: () {},
                       buttonText: 'Pay',
