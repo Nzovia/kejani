@@ -242,7 +242,7 @@ class _AddBillItemState extends State<AddBillItem> {
                                   labelText: "billStatus",
                                   enabledBorder: const OutlineInputBorder(
                                       borderSide:
-                                      BorderSide(color: Colors.grey)),
+                                          BorderSide(color: Colors.grey)),
                                   hintText: "Enter billStatus",
                                   focusedBorder: OutlineInputBorder(
                                     borderSide: const BorderSide(
@@ -250,55 +250,48 @@ class _AddBillItemState extends State<AddBillItem> {
                                     borderRadius: BorderRadius.circular(10),
                                   )),
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Text(
-                                  "Enter BillStatus : ",
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  ),
-                                ),
-
-                              ],
-                            ),
-
                             const SizedBox(
-                              height: 24,
+                              height: 16,
                             ),
-                            TextFormField(
-                              autofocus: false,
-                              controller: dateInputController,
-                              keyboardType: TextInputType.name,
-                              style: const TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.black87),
-                              decoration: InputDecoration(
-                                  icon: Icon(Icons.calendar_today),
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      vertical: 0, horizontal: 10),
-                                  labelText: "paymentDate",
-                                  enabledBorder: const OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.grey)),
-                                  hintText: "Enter paymentDate",
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        width: 1, color: Colors.blue),
-                                    borderRadius: BorderRadius.circular(10),
-                                  )),
-                              readOnly: true,
-                              onTap: ()async{
+                            InkWell(
+                              onTap: () async {
+                                FocusScope.of(context)
+                                    .requestFocus(new FocusNode());
                                 DateTime? pickedDate = await showDatePicker(
-                                    context: context, initialDate: DateTime.now(),
-                                    firstDate: DateTime(200),
-                                    lastDate: DateTime(2021),
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(2000),
+                                  lastDate: DateTime(2021),
                                 );
-                              }
-                              
+                              },
+                              child: IgnorePointer(
+                                child: TextFormField(
+                                  autofocus: false,
+                                  controller: dateInputController,
+                                  keyboardType: TextInputType.name,
+                                  style: const TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.black87),
+                                  decoration: InputDecoration(
+                                      prefixIcon:
+                                          const Icon(Icons.calendar_today),
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                              vertical: 0, horizontal: 10),
+                                      labelText: "paymentDate",
+                                      enabledBorder: const OutlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.grey)),
+                                      hintText: "Enter paymentDate",
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            width: 1, color: Colors.blue),
+                                        borderRadius: BorderRadius.circular(10),
+                                      )),
+                                  readOnly: true,
+                                ),
+                              ),
                             ),
                             const SizedBox(
                               height: 24,

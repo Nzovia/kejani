@@ -23,7 +23,7 @@ class BillDelete extends StatelessWidget {
                   .collection('users')
                   .doc('uid')
                   .collection('bills')
-                  .doc('billId')
+                  .doc('billId  ')
                   .delete();
             },
             child: const Text(
