@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 import 'package:kejani/pages/user_bills_page.dart';
 
 import '../model/bills.dart';
@@ -33,7 +34,13 @@ class _AddBillItemState extends State<AddBillItem> {
   final logoController = new TextEditingController();
   final priorityControler = new TextEditingController();
   final statusController = new TextEditingController();
-  final dateInputController = new TextEditingController();
+  final paymentDateController = new TextEditingController();
+
+  //date variables
+  DateTime? selectedDate;
+  DateTime _date = DateTime.now();
+  var billDate;
+
   var options = [
     'Pending',
     'Paid',
@@ -253,45 +260,34 @@ class _AddBillItemState extends State<AddBillItem> {
                             const SizedBox(
                               height: 16,
                             ),
-                            InkWell(
-                              onTap: () async {
-                                FocusScope.of(context)
-                                    .requestFocus(new FocusNode());
-                                DateTime? pickedDate = await showDatePicker(
-                                  context: context,
-                                  initialDate: DateTime.now(),
-                                  firstDate: DateTime(2000),
-                                  lastDate: DateTime(2021),
-                                );
+                            TextFormField(
+                              autofocus: false,
+                              controller: paymentDateController,
+                              keyboardType: TextInputType.name,
+                              style: const TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black87),
+                              decoration: InputDecoration(
+                                  prefixIcon: const Icon(Icons.calendar_today),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 0, horizontal: 10),
+                                  labelText: "paymentDate",
+                                  enabledBorder: const OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.grey)),
+                                  hintText: "Enter paymentDate",
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        width: 1, color: Colors.blue),
+                                    borderRadius: BorderRadius.circular(10),
+                                  )),
+                              readOnly: true,
+                              onTap: () {
+                                setState(() {
+                                  datePicker();
+                                });
                               },
-                              child: IgnorePointer(
-                                child: TextFormField(
-                                  autofocus: false,
-                                  controller: dateInputController,
-                                  keyboardType: TextInputType.name,
-                                  style: const TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.black87),
-                                  decoration: InputDecoration(
-                                      prefixIcon:
-                                          const Icon(Icons.calendar_today),
-                                      contentPadding:
-                                          const EdgeInsets.symmetric(
-                                              vertical: 0, horizontal: 10),
-                                      labelText: "paymentDate",
-                                      enabledBorder: const OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.grey)),
-                                      hintText: "Enter paymentDate",
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: const BorderSide(
-                                            width: 1, color: Colors.blue),
-                                        borderRadius: BorderRadius.circular(10),
-                                      )),
-                                  readOnly: true,
-                                ),
-                              ),
                             ),
                             const SizedBox(
                               height: 24,
@@ -364,7 +360,7 @@ class _AddBillItemState extends State<AddBillItem> {
     bill.name = nameController.text;
     bill.priority = priorityControler.text;
     bill.status = statusController.text;
-    bill.paymentDate = dateInputController.text;
+    bill.paymentDate = paymentDateController.text;
 
     //add firebaseFirestore
     await firebaseFirestore
@@ -377,5 +373,20 @@ class _AddBillItemState extends State<AddBillItem> {
     //navigating to logicScreen
     Navigator.pushAndRemoveUntil((context),
         MaterialPageRoute(builder: (context) => UserBills()), (route) => false);
+  }
+
+  datePicker() async {
+    selectedDate = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2000),
+        lastDate: DateTime(2100));
+    if (selectedDate != null && selectedDate != _date) {
+      setState(() {
+        _date = selectedDate!;
+        billDate = DateFormat('dd/MM/yyyy').format(_date);
+        paymentDateController.text = "${billDate.toString()}";
+      });
+    }
   }
 }
