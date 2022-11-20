@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:kejani/pages/user_bills_page.dart';
 
 import '../model/bills.dart';
+import '../widgets/text_widget.dart';
 
 class AddBillItem extends StatefulWidget {
   const AddBillItem({Key? key}) : super(key: key);
@@ -41,12 +42,33 @@ class _AddBillItemState extends State<AddBillItem> {
   DateTime _date = DateTime.now();
   var billDate;
 
+  //drop down choices
+  late Texts _priorityChoose; //Critical/High/Optional
+  late Texts _statusChoose; //Paid or Pending
+
+  List<Texts> priorityList = [
+    Texts(typedText: "Critical", textColor: Colors.red),
+    Texts(typedText: "High", textColor: Colors.blue),
+    Texts(typedText: "Optional", textColor: Colors.green),
+  ];
+
+  List<Texts> statusList = [
+    const Texts(typedText: 'Pending', textColor: Colors.red),
+    const Texts(typedText: "Paid", textColor: Colors.green),
+  ];
   var options = [
     'Pending',
     'Paid',
   ];
   var _currentItemSelected = "Paid";
   var Status = "Pending";
+
+  @override
+  void initState() {
+    super.initState();
+    _priorityChoose = priorityList[0];
+    _statusChoose = statusList[0];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -185,77 +207,123 @@ class _AddBillItemState extends State<AddBillItem> {
                             const SizedBox(
                               height: 16,
                             ),
-                            TextFormField(
-                              autofocus: false,
-                              controller: logoController,
-                              keyboardType: TextInputType.text,
-                              style: const TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.black87),
-                              decoration: InputDecoration(
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      vertical: 0, horizontal: 10),
-                                  labelText: "logo",
-                                  enabledBorder: const OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.grey)),
-                                  hintText: "Enter your billLogo",
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        width: 1, color: Colors.blue),
-                                    borderRadius: BorderRadius.circular(10),
+                            // TextFormField(
+                            //   autofocus: false,
+                            //   controller: logoController,
+                            //   keyboardType: TextInputType.text,
+                            //   style: const TextStyle(
+                            //       fontSize: 15,
+                            //       fontWeight: FontWeight.w400,
+                            //       color: Colors.black87),
+                            //   decoration: InputDecoration(
+                            //       contentPadding: const EdgeInsets.symmetric(
+                            //           vertical: 0, horizontal: 10),
+                            //       labelText: "logo",
+                            //       enabledBorder: const OutlineInputBorder(
+                            //           borderSide:
+                            //               BorderSide(color: Colors.grey)),
+                            //       hintText: "Enter your billLogo",
+                            //       focusedBorder: OutlineInputBorder(
+                            //         borderSide: const BorderSide(
+                            //             width: 1, color: Colors.blue),
+                            //         borderRadius: BorderRadius.circular(10),
+                            //       )),
+                            // ),
+                            // const SizedBox(
+                            //   height: 16,
+                            // ),
+                            FormField<String>(
+                              builder: (FormFieldState<String> state) {
+                                return InputDecorator(
+                                  decoration: InputDecoration(
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                              vertical: 0, horizontal: 10),
+                                      labelText: "billPriority",
+                                      enabledBorder: const OutlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.grey)),
+                                      hintText: "Enter billPriority",
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            width: 1, color: Colors.blue),
+                                        borderRadius: BorderRadius.circular(10),
+                                      )),
+                                  child: DropdownButtonHideUnderline(
+                                      child: DropdownButton<Texts>(
+                                    items: priorityList
+                                        .map<DropdownMenuItem<Texts>>(
+                                            (Texts value) {
+                                      return DropdownMenuItem(
+                                          value: value,
+                                          child: Text(
+                                            value.typedText,
+                                            style: const TextStyle(
+                                                color: Colors.red,
+                                                fontWeight: FontWeight.bold),
+                                          ));
+                                    }).toList(),
+                                    isExpanded: true,
+                                    isDense: true,
+                                    onChanged: (Texts? newChoose) {
+                                      _onDropDownItemSelected(newChoose!);
+                                    },
+                                    value: _priorityChoose,
                                   )),
+                                );
+                              },
+                              // autofocus: false,
+                              // controller: priorityControler,
+                              // keyboardType: TextInputType.name,
+                              // style: const TextStyle(
+                              //     fontSize: 15,
+                              //     fontWeight: FontWeight.w400,
+                              //     color: Colors.black87),
+                              // decoration:
                             ),
                             const SizedBox(
                               height: 16,
                             ),
-                            TextFormField(
-                              autofocus: false,
-                              controller: priorityControler,
-                              keyboardType: TextInputType.name,
-                              style: const TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.black87),
-                              decoration: InputDecoration(
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      vertical: 0, horizontal: 10),
-                                  labelText: "billPriority",
-                                  enabledBorder: const OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.grey)),
-                                  hintText: "Enter billPriority",
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        width: 1, color: Colors.blue),
-                                    borderRadius: BorderRadius.circular(10),
+                            FormField<String>(
+                              builder: (FormFieldState<String> state) {
+                                return InputDecorator(
+                                  decoration: InputDecoration(
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                              vertical: 0, horizontal: 10),
+                                      labelText: "billStatus",
+                                      enabledBorder: const OutlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.grey)),
+                                      hintText: "Enter billStatus",
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            width: 1, color: Colors.blue),
+                                        borderRadius: BorderRadius.circular(10),
+                                      )),
+                                  child: DropdownButtonHideUnderline(
+                                      child: DropdownButton<Texts>(
+                                    items: statusList
+                                        .map<DropdownMenuItem<Texts>>(
+                                            (Texts value) {
+                                      return DropdownMenuItem(
+                                          value: value,
+                                          child: Text(
+                                            value.typedText,
+                                            style: const TextStyle(
+                                                color: Colors.blue,
+                                                fontWeight: FontWeight.bold),
+                                          ));
+                                    }).toList(),
+                                    isExpanded: true,
+                                    isDense: true,
+                                    onChanged: (Texts? newChoose) {
+                                      _onDropDownItemSelected(newChoose!);
+                                    },
+                                    value: _statusChoose,
                                   )),
-                            ),
-                            const SizedBox(
-                              height: 16,
-                            ),
-                            TextFormField(
-                              autofocus: false,
-                              controller: statusController,
-                              keyboardType: TextInputType.name,
-                              style: const TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.black87),
-                              decoration: InputDecoration(
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      vertical: 0, horizontal: 10),
-                                  labelText: "billStatus",
-                                  enabledBorder: const OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.grey)),
-                                  hintText: "Enter billStatus",
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        width: 1, color: Colors.blue),
-                                    borderRadius: BorderRadius.circular(10),
-                                  )),
+                                );
+                              },
                             ),
                             const SizedBox(
                               height: 16,
@@ -388,5 +456,12 @@ class _AddBillItemState extends State<AddBillItem> {
         paymentDateController.text = "${billDate.toString()}";
       });
     }
+  }
+
+  void _onDropDownItemSelected(Texts newChoose) {
+    setState(() {
+      _priorityChoose = newChoose;
+      paymentDateController.text = "${_priorityChoose.toString()}";
+    });
   }
 }
