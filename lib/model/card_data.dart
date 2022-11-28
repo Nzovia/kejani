@@ -9,12 +9,12 @@ class Bill {
 
   Bill(
       {this.name,
-      this.amount,
-      this.balance,
-      this.logo,
-      this.priority,
-      this.status,
-      this.paymentDate});
+        this.amount,
+        this.balance,
+        this.logo,
+        this.priority,
+        this.status,
+        this.paymentDate});
 
 //receive data from server
   factory Bill.fromSnapshot(snapshot) {

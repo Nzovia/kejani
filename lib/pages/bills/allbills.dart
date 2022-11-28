@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kejani/pages/add_a_billItem.dart';
+import 'package:kejani/pages/payment_activity.dart';
 import 'package:kejani/widgets/button_widget.dart';
 import 'package:kejani/widgets/note_delete.dart';
 
@@ -67,12 +68,17 @@ class _AllBillsState extends State<AllBills> {
                       .push(MaterialPageRoute(builder: (_) => AddBillItem()));
                 },
                 child: ListTile(
-                    leading: Icon(Icons.paypal_sharp),
+                    leading: const Icon(Icons.paypal_sharp),
                     title: Text("${billsList[index].name}"),
                     subtitle:
                         Text("Unpaid Balance: KSh. ${billsList[index].amount}"),
                     trailing: ButtonWidget(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const PaymentActivity()));
+                      },
                       buttonText: 'Pay',
                       buttonColor: Colors.red,
                       shapeBorder: RoundedRectangleBorder(

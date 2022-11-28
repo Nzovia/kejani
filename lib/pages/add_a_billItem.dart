@@ -33,9 +33,9 @@ class _AddBillItemState extends State<AddBillItem> {
   final amountController = new TextEditingController();
   final balanceControler = new TextEditingController();
   final logoController = new TextEditingController();
-  final priorityControler = new TextEditingController();
-  final statusController = new TextEditingController();
   final paymentDateController = new TextEditingController();
+  // final priorityControler = new TextEditingController();
+  // final statusController = new TextEditingController();
 
   //date variables
   DateTime? selectedDate;
@@ -43,8 +43,8 @@ class _AddBillItemState extends State<AddBillItem> {
   var billDate;
 
   //drop down choices
-  late Texts _priorityChoose; //Critical/High/Optional
-  late Texts _statusChoose; //Paid or Pending
+  late Texts priorityChoose; //Critical/High/Optional
+  late Texts statusChoose; //Paid or Pending
 
   List<Texts> priorityList = [
     Texts(typedText: "Critical", textColor: Colors.red),
@@ -66,8 +66,8 @@ class _AddBillItemState extends State<AddBillItem> {
   @override
   void initState() {
     super.initState();
-    _priorityChoose = priorityList[0];
-    _statusChoose = statusList[0];
+    priorityChoose = priorityList[0];
+    statusChoose = statusList[0];
   }
 
   @override
@@ -207,31 +207,6 @@ class _AddBillItemState extends State<AddBillItem> {
                             const SizedBox(
                               height: 16,
                             ),
-                            // TextFormField(
-                            //   autofocus: false,
-                            //   controller: logoController,
-                            //   keyboardType: TextInputType.text,
-                            //   style: const TextStyle(
-                            //       fontSize: 15,
-                            //       fontWeight: FontWeight.w400,
-                            //       color: Colors.black87),
-                            //   decoration: InputDecoration(
-                            //       contentPadding: const EdgeInsets.symmetric(
-                            //           vertical: 0, horizontal: 10),
-                            //       labelText: "logo",
-                            //       enabledBorder: const OutlineInputBorder(
-                            //           borderSide:
-                            //               BorderSide(color: Colors.grey)),
-                            //       hintText: "Enter your billLogo",
-                            //       focusedBorder: OutlineInputBorder(
-                            //         borderSide: const BorderSide(
-                            //             width: 1, color: Colors.blue),
-                            //         borderRadius: BorderRadius.circular(10),
-                            //       )),
-                            // ),
-                            // const SizedBox(
-                            //   height: 16,
-                            // ),
                             FormField<String>(
                               builder: (FormFieldState<String> state) {
                                 return InputDecorator(
@@ -268,7 +243,7 @@ class _AddBillItemState extends State<AddBillItem> {
                                     onChanged: (Texts? newChoose) {
                                       _onDropDownItemSelected(newChoose!);
                                     },
-                                    value: _priorityChoose,
+                                    value: priorityChoose,
                                   )),
                                 );
                               },
@@ -318,9 +293,9 @@ class _AddBillItemState extends State<AddBillItem> {
                                     isExpanded: true,
                                     isDense: true,
                                     onChanged: (Texts? newChoose) {
-                                      _onDropDownItemSelected(newChoose!);
+                                      _onBillStatusSelectedItem(newChoose!);
                                     },
-                                    value: _statusChoose,
+                                    value: statusChoose,
                                   )),
                                 );
                               },
@@ -426,8 +401,8 @@ class _AddBillItemState extends State<AddBillItem> {
     bill.balance = balanceControler.text;
     bill.logo = logoController.text;
     bill.name = nameController.text;
-    bill.priority = priorityControler.text;
-    bill.status = statusController.text;
+    bill.priority = priorityChoose as String;
+    bill.status = statusChoose as String;
     bill.paymentDate = paymentDateController.text;
 
     //add firebaseFirestore
@@ -460,8 +435,13 @@ class _AddBillItemState extends State<AddBillItem> {
 
   void _onDropDownItemSelected(Texts newChoose) {
     setState(() {
-      _priorityChoose = newChoose;
-      paymentDateController.text = "${_priorityChoose.toString()}";
+      priorityChoose = newChoose;
+    });
+  }
+
+  void _onBillStatusSelectedItem(Texts texts) {
+    setState(() {
+      statusChoose = texts;
     });
   }
 }

@@ -102,7 +102,7 @@ class _UserProfileState extends State<UserProfile> {
                       title: Text(
                         "${loggedUser.email}",
                         style:
-                            TextStyle(fontFamily: 'BalooBhai', fontSize: 20.0),
+                            const TextStyle(fontFamily: 'BalooBhai', fontSize: 20.0),
                       ),
                     )),
                 Card(
@@ -117,7 +117,7 @@ class _UserProfileState extends State<UserProfile> {
                       title: Text(
                         "${loggedUser.phone}",
                         style:
-                            TextStyle(fontFamily: 'BalooBhai', fontSize: 20.0),
+                            const TextStyle(fontFamily: 'BalooBhai', fontSize: 20.0),
                       ),
                     )),
                 Card(
@@ -135,7 +135,7 @@ class _UserProfileState extends State<UserProfile> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 ActionChip(
