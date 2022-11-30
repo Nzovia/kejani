@@ -21,8 +21,8 @@ class CreditCard extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 5),
-        width: 300,
-        height: 300,
+        width: 320,
+        height: 200,
         decoration: decoration,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
         child: Column(

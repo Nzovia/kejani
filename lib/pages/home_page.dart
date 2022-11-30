@@ -17,7 +17,7 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   static final List<Widget> _widgetOptions = [
     UserBills(),
-    CreditCards(),
+    AddNewCardScreen(),
     UserBillsSummary(),
     UserProfile(),
   ];

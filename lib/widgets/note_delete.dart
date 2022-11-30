@@ -5,8 +5,24 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class BillDelete extends StatelessWidget {
+import '../model/bills.dart';
+
+class BillDelete extends StatefulWidget {
   const BillDelete({Key? key}) : super(key: key);
+
+  @override
+  State<BillDelete> createState() => _BillDeleteState();
+}
+
+class _BillDeleteState extends State<BillDelete> {
+  //list of all the bills
+  List billsList = [];
+
+  //current user
+  User? user = FirebaseAuth.instance.currentUser;
+
+  //initializing bills
+  Bill bill = Bill();
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +35,17 @@ class BillDelete extends StatelessWidget {
         TextButton(
             onPressed: () async {
               Navigator.of(context).pop(true);
-              await FirebaseFirestore.instance
+
+              var data = await FirebaseFirestore.instance
                   .collection('users')
-                  .doc('uid')
-                  .collection('bills')
-                  .doc('billId  ')
-                  .delete();
+                  .doc(user?.uid)
+                  .collection('bills').doc("billId");
+
+              //deleting.....
+              await FirebaseFirestore.instance.runTransaction((Transaction transaction) async {
+                await transaction.delete(data);
+              });
+
             },
             child: const Text(
               'Yes',
@@ -41,4 +62,5 @@ class BillDelete extends StatelessWidget {
       ],
     );
   }
+
 }

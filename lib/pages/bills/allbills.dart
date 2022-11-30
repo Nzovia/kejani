@@ -15,7 +15,7 @@ class AllBills extends StatefulWidget {
   State<AllBills> createState() => _AllBillsState();
 }
 
-class _AllBillsState extends State<AllBills> {
+class _AllBillsState extends State<AllBills> with TickerProviderStateMixin {
   //list of all the bills
   List billsList = [];
 
@@ -25,12 +25,31 @@ class _AllBillsState extends State<AllBills> {
   //initializing bills
   Bill bill = Bill();
 
+  //circular indicator
+  late AnimationController animationController;
+
   @override
   void initState() {
-    // TODO: implement initState
+    //set animated controller on init
+    animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 5),
+    )..addListener(() {
+      setState(() {});
+    });
+    animationController.repeat(reverse: true);
+
     super.initState();
     fetchBills();
   }
+
+  //disposing animated controller
+  @override
+  void dispose(){
+    animationController.dispose();
+    super.dispose();
+  }
+
 
   fetchBills() async {
     dynamic results = await getAllBills();
@@ -101,6 +120,11 @@ class _AllBillsState extends State<AllBills> {
         .get();
 
     setState(() {
+      CircularProgressIndicator(
+        value: animationController.value,
+        color: Colors.blue,
+        // backgroundColor: Colors.green,
+      );
       billsList = List.from(data.docs.map((doc) => Bill.fromSnapshot(doc)));
     });
   }
