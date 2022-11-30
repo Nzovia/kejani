@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kejani/pages/bills_summary.dart';
 import 'package:kejani/pages/app_settings.dart';
-//import 'package:kejani/pages/creditcard.dart';
+//import 'package:kejani/pages/wallet.dart';
 import 'package:kejani/pages/update_app.dart';
 import 'package:kejani/pages/user_login.dart';
 

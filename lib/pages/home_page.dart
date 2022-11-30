@@ -3,7 +3,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:kejani/pages/UserProfile.dart';
 import 'package:kejani/pages/add_a_billItem.dart';
 import 'package:kejani/pages/bills_summary.dart';
-import 'package:kejani/pages/creditcard.dart';
+import 'package:kejani/pages/wallet.dart';
 import 'package:kejani/pages/user_bills_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,7 +17,7 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   static final List<Widget> _widgetOptions = [
     UserBills(),
-    AddNewCardScreen(),
+    WalletAndTransactionHistoryPage(),
     UserBillsSummary(),
     UserProfile(),
   ];

@@ -198,19 +198,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:kejani/services/add_card_details.dart';
 import 'package:kejani/widgets/cards/user_credit_cards.dart';
-
 import '../constants/card_type.dart';
 import '../constants/utils/card_utils.dart';
+import '../widgets/cards/bill_widget.dart';
+import '../widgets/wallet_action_cards.dart';
 
-class AddNewCardScreen extends StatefulWidget {
-  const AddNewCardScreen({Key? key}) : super(key: key);
+class WalletAndTransactionHistoryPage extends StatefulWidget {
+  const WalletAndTransactionHistoryPage({Key? key}) : super(key: key);
 
   @override
-  State<AddNewCardScreen> createState() => _AddNewCardScreenState();
+  State<WalletAndTransactionHistoryPage> createState() => _WalletAndTransactionHistoryPageState();
 }
 
-class _AddNewCardScreenState extends State<AddNewCardScreen> {
+class _WalletAndTransactionHistoryPageState extends State<WalletAndTransactionHistoryPage> {
 
   @override
   void initState() {
@@ -246,7 +248,46 @@ class _AddNewCardScreenState extends State<AddNewCardScreen> {
     CardUtils cardUtils;
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(title: const Text("Cards and Transaction")),
+      appBar: AppBar(
+          leading: Builder(
+            builder: (context) =>
+                IconButton(
+                  icon: const Icon(
+                    Icons.arrow_back_ios,
+                    size: 24,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+          ),
+          title: const Text("Cards and Transaction"),
+      actions: [
+        PopupMenuButton(itemBuilder: (context){
+          return[
+            const PopupMenuItem<int>(
+              value: 0,
+                child: Text("create Card")),
+
+            const PopupMenuItem<int>(
+                value: 1,
+                child: Text("Update Card"))
+
+          ];
+        },
+        onSelected:(value){
+          if(value == 0){
+            //showModalBottomSheet(context: context, builder: builder)
+          }
+          else if(value ==1){
+            //show update dialog
+
+          }
+        }
+        )
+      ],
+      ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: SafeArea(
@@ -254,94 +295,151 @@ class _AddNewCardScreenState extends State<AddNewCardScreen> {
             padding: const EdgeInsets.fromLTRB(16, 8, 16,0),
             child: Column(
               children: [
-                Form(
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        controller: _cardNumber,
-                        keyboardType: TextInputType.number,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly,
-                          LengthLimitingTextInputFormatter(19),
-                          CardNumberInputFormatter(),
-                        ],
-                        decoration:  InputDecoration(hintText: "Card number",
-                            suffix: CardUtils.getCardIcon(cardType) //must be fixed
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        child: TextFormField(
-                          controller: _cardHolderName,
-                          keyboardType: TextInputType.text,
-                          decoration:
-                          const InputDecoration(hintText: "Full name"),
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: TextFormField(
-                              controller: _cvvCode,
-                              keyboardType: TextInputType.number,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.digitsOnly,
-                                // Limit the input
-                                LengthLimitingTextInputFormatter(4),
-                              ],
-                              decoration: const InputDecoration(hintText: "CVV"),
-                            ),
-                          ),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: TextFormField(
-                              controller: _expiryDate,
-                              keyboardType: TextInputType.number,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.digitsOnly,
-                                LengthLimitingTextInputFormatter(5),
-                                CardMonthInputFormatter(),
-                              ],
-                              decoration:
-                              const InputDecoration(hintText: "MM/YY"),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        child: TextFormField(
-                          controller: _amount,
-                          keyboardType: TextInputType.number,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                            LengthLimitingTextInputFormatter(19),
-                            CardNumberInputFormatter(),
-                          ],
-                          decoration: const InputDecoration(hintText: "Budget Amount"),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 2),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    ElevatedButton(
-                      child: const Text("Add card"),
-                      onPressed: () {},
-                    ),
-                    ElevatedButton(
-                      child: const Text("delete card"),
-                      onPressed: () {},
-                    ),
-                    ElevatedButton(
-                      child: const Text("update card"),
-                      onPressed: () {},
-                    ),
-                  ],
-                ),
+                // Form(
+                //   key: formKey,
+                //   child: Column(
+                //     children: [
+                //       TextFormField(
+                //         controller: _cardNumber,
+                //         autofocus: false,
+                //         validator: (value) {
+                //           if (value == null || value.trim().isEmpty) {
+                //             return 'This field is required';
+                //           }
+                //         },
+                //         keyboardType: TextInputType.number,
+                //         inputFormatters: [
+                //           FilteringTextInputFormatter.digitsOnly,
+                //           LengthLimitingTextInputFormatter(19),
+                //           CardNumberInputFormatter(),
+                //         ],
+                //         decoration:  InputDecoration(hintText: "Card number",
+                //             suffix: CardUtils.getCardIcon(cardType) //must be fixed
+                //         ),
+                //       ),
+                //       Padding(
+                //         padding: const EdgeInsets.symmetric(vertical: 16),
+                //         child: TextFormField(
+                //           controller: _cardHolderName,
+                //           autofocus: false,
+                //           validator: (value) {
+                //             if (value == null || value.trim().isEmpty) {
+                //               return 'This field is required';
+                //             }
+                //           },
+                //           keyboardType: TextInputType.text,
+                //           decoration:
+                //           const InputDecoration(hintText: "Full name"),
+                //         ),
+                //       ),
+                //       Row(
+                //         children: [
+                //           Expanded(
+                //             child: TextFormField(
+                //               controller: _cvvCode,
+                //               autofocus: false,
+                //               validator: (value) {
+                //                 if (value == null || value.trim().isEmpty) {
+                //                   return 'This field is required';
+                //                 }
+                //               },
+                //               keyboardType: TextInputType.number,
+                //               inputFormatters: [
+                //                 FilteringTextInputFormatter.digitsOnly,
+                //                 // Limit the input
+                //                 LengthLimitingTextInputFormatter(4),
+                //               ],
+                //               decoration: const InputDecoration(hintText: "CVV"),
+                //             ),
+                //           ),
+                //           const SizedBox(width: 16),
+                //           Expanded(
+                //             child: TextFormField(
+                //               controller: _expiryDate,
+                //               keyboardType: TextInputType.number,
+                //               autofocus: false,
+                //               validator: (value) {
+                //                 if (value == null || value.trim().isEmpty) {
+                //                   return 'This field is required';
+                //                 }
+                //               },
+                //               inputFormatters: [
+                //                 FilteringTextInputFormatter.digitsOnly,
+                //                 LengthLimitingTextInputFormatter(5),
+                //                 CardMonthInputFormatter(),
+                //               ],
+                //               decoration:
+                //               const InputDecoration(hintText: "MM/YY"),
+                //             ),
+                //           ),
+                //         ],
+                //       ),
+                //       Padding(
+                //         padding: const EdgeInsets.symmetric(vertical: 16),
+                //         child: TextFormField(
+                //           controller: _amount,
+                //           autofocus: false,
+                //           validator: (value) {
+                //             if (value == null || value.trim().isEmpty) {
+                //               return 'This field is required';
+                //             }
+                //           },
+                //           keyboardType: TextInputType.number,
+                //           inputFormatters: [
+                //             FilteringTextInputFormatter.digitsOnly,
+                //             LengthLimitingTextInputFormatter(19),
+                //             CardNumberInputFormatter(),
+                //           ],
+                //           decoration: const InputDecoration(hintText: "Budget Amount"),
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                // const SizedBox(height: 2),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                //   children: [
+                //     ElevatedButton(
+                //       child: const Text("Add card"),
+                //       onPressed: () async{
+                //         if (formKey.currentState!.validate()){
+                //           var response = await CreditCardsCRUD
+                //               .addCard(
+                //               cardNumber: _cardNumber.text,
+                //               amount: _amount.text,
+                //               expiryDate: _expiryDate.text,
+                //               cardHolderName: _cardHolderName.text,
+                //               cvvCode: _cvvCode.text);
+                //           if(response.code != 200){
+                //             showDialog(context: context,
+                //                 builder: (context){
+                //                   return AlertDialog(
+                //                     content: Text(response.message.toString()),
+                //                   );
+                //                 });
+                //           }else{
+                //             showDialog(context: context,
+                //                 builder: (context){
+                //                   return AlertDialog(
+                //                     content: Text(response.message.toString()),
+                //                   );
+                //                 });
+                //           }
+                //         }
+                //
+                //       },
+                //     ),
+                //     ElevatedButton(
+                //       child: const Text("delete card"),
+                //       onPressed: () {},
+                //     ),
+                //     ElevatedButton(
+                //       child: const Text("update card"),
+                //       onPressed: () {},
+                //     ),
+                //   ],
+                // ),
                 //const Spacer(),
 
                  CreditCard(
@@ -360,7 +458,62 @@ class _AddNewCardScreenState extends State<AddNewCardScreen> {
                            fontSize: 16
                        ),
                      )
-                 )
+                 ),
+                const SizedBox(height: 8,),
+                //wallet actions
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    WalletActionButton(
+                      buttonColor: Colors.grey,
+                      buttonIcon: Icons.money,
+                      buttonName: "Balance",
+                    ),
+                    SizedBox(width: 10,),
+                    WalletActionButton(
+                      buttonColor: Colors.blueGrey,
+                      buttonIcon: Icons.download_for_offline_outlined,
+                      buttonName: "Statement",
+                    ),
+                    SizedBox(width: 10,),
+                    WalletActionButton(
+                      buttonColor: Colors.indigoAccent,
+                      buttonIcon: Icons.edit_note_sharp,
+                      buttonName: "Budget",
+                    )
+
+                  ],
+                ),
+
+                const SizedBox(height: 8,),
+                const Text("Payment History", style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),),
+                const Divider(color: Colors.black,),
+                //Dynamic list of all transactions
+                const BillsWidget(
+                  colors: Colors.grey,
+                  billlogo: Icons.paypal_outlined,
+                  billsName: 'Water Bill. KSH. 3000',
+                  date: 'Paid: 02/04/2022',
+                ),
+                const BillsWidget(
+                  colors: Colors.grey,
+                  billlogo: Icons.paypal_outlined,
+                  billsName: 'House Rent. KSH. 13000',
+                  date: 'Paid: 01/11/2022',
+                ),
+                const BillsWidget(
+                  colors: Colors.grey,
+                  billlogo: Icons.paypal_outlined,
+                  billsName: 'Netflix Fee. KSH. 1500',
+                  date: 'Paid: 01/11/2022',
+                ),
+                const BillsWidget(
+                  colors: Colors.grey,
+                  billlogo: Icons.paypal_outlined,
+                  billsName: 'House Rent. KSH. 13000',
+                  date: 'Paid: 01/11/2022',
+                ),
+
               ],
             ),
           ),

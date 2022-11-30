@@ -88,7 +88,7 @@ class CreditCardsCRUD{
         .update(data)
         .whenComplete(() {
       response.code = 200;
-      response.message = "Sucessfully updated Account";
+      response.message = "Successfully updated Account";
     })
         .catchError((e) {
       response.code = 500;
