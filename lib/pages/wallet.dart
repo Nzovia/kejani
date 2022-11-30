@@ -200,10 +200,12 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:kejani/services/add_card_details.dart';
 import 'package:kejani/widgets/cards/user_credit_cards.dart';
+
 import '../constants/card_type.dart';
 import '../constants/utils/card_utils.dart';
 import '../widgets/cards/bill_widget.dart';
 import '../widgets/wallet_action_cards.dart';
+import 'home_page.dart';
 
 class WalletAndTransactionHistoryPage extends StatefulWidget {
   const WalletAndTransactionHistoryPage({Key? key}) : super(key: key);
@@ -258,7 +260,9 @@ class _WalletAndTransactionHistoryPageState extends State<WalletAndTransactionHi
                     color: Colors.white,
                   ),
                   onPressed: () {
-                    Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const HomePage()),);
                   },
                 ),
           ),
@@ -279,6 +283,173 @@ class _WalletAndTransactionHistoryPageState extends State<WalletAndTransactionHi
         onSelected:(value){
           if(value == 0){
             //showModalBottomSheet(context: context, builder: builder)
+            showModalBottomSheet(
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+                context: context, builder: ( BuildContext context){
+
+              const SizedBox(height: 5);
+              return FractionallySizedBox(
+                heightFactor: 1.0,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      const Text("Card Processing and Validation", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),),
+                      const Divider(color: Colors.blueGrey,),
+                      Form(
+                        key: formKey,
+                        child: Column(
+                          children: [
+                            TextFormField(
+                              controller: _cardNumber,
+                              autofocus: false,
+                              validator: (value) {
+                                if (value == null || value.trim().isEmpty) {
+                                  return 'This field is required';
+                                }
+                              },
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                                LengthLimitingTextInputFormatter(19),
+                                CardNumberInputFormatter(),
+                              ],
+                              decoration:  InputDecoration(hintText: "Card number",
+                                  suffix: CardUtils.getCardIcon(cardType) //must be fixed
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 6),
+                              child: TextFormField(
+                                controller: _cardHolderName,
+                                autofocus: false,
+                                validator: (value) {
+                                  if (value == null || value.trim().isEmpty) {
+                                    return 'This field is required';
+                                  }
+                                },
+                                keyboardType: TextInputType.text,
+                                decoration:
+                                const InputDecoration(hintText: "Full name"),
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: TextFormField(
+                                    controller: _cvvCode,
+                                    autofocus: false,
+                                    validator: (value) {
+                                      if (value == null || value.trim().isEmpty) {
+                                        return 'This field is required';
+                                      }
+                                    },
+                                    keyboardType: TextInputType.number,
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.digitsOnly,
+                                      // Limit the input
+                                      LengthLimitingTextInputFormatter(4),
+                                    ],
+                                    decoration: const InputDecoration(hintText: "CVV"),
+                                  ),
+                                ),
+                                const SizedBox(width: 6),
+                                Expanded(
+                                  child: TextFormField(
+                                    controller: _expiryDate,
+                                    keyboardType: TextInputType.number,
+                                    autofocus: false,
+                                    validator: (value) {
+                                      if (value == null || value.trim().isEmpty) {
+                                        return 'This field is required';
+                                      }
+                                    },
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.digitsOnly,
+                                      LengthLimitingTextInputFormatter(5),
+                                      CardMonthInputFormatter(),
+                                    ],
+                                    decoration:
+                                    const InputDecoration(hintText: "MM/YY"),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 6),
+                              child: TextFormField(
+                                controller: _amount,
+                                autofocus: false,
+                                validator: (value) {
+                                  if (value == null || value.trim().isEmpty) {
+                                    return 'This field is required';
+                                  }
+                                },
+                                keyboardType: TextInputType.number,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                  LengthLimitingTextInputFormatter(19),
+                                  CardNumberInputFormatter(),
+                                ],
+                                decoration: const InputDecoration(hintText: "Budget Amount"),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          ElevatedButton(
+                            child: const Text("Add card"),
+                            onPressed: () async{
+                              if (formKey.currentState!.validate()){
+                                var response = await CreditCardsCRUD
+                                    .addCard(
+                                    cardNumber: _cardNumber.text,
+                                    amount: _amount.text,
+                                    expiryDate: _expiryDate.text,
+                                    cardHolderName: _cardHolderName.text,
+                                    cvvCode: _cvvCode.text);
+                                if(response.code != 200){
+                                  showDialog(context: context,
+                                      builder: (context){
+                                        return AlertDialog(
+                                          content: Text(response.message.toString()),
+                                        );
+                                      });
+                                }else{
+                                  showDialog(context: context,
+                                      builder: (context){
+                                        return AlertDialog(
+                                          content: Text(response.message.toString()),
+                                        );
+                                      });
+                                }
+                              }
+
+                            },
+                          ),
+                          ElevatedButton(
+                            child: const Text("delete card"),
+                            onPressed: () {},
+                          ),
+                          ElevatedButton(
+                            child: const Text("update card"),
+                            onPressed: () {},
+                          ),
+                        ],
+                      ),
+                      const Spacer(),
+                    ],
+                  ),
+                ),
+              );
+
+
+            });
+
           }
           else if(value ==1){
             //show update dialog
@@ -295,152 +466,6 @@ class _WalletAndTransactionHistoryPageState extends State<WalletAndTransactionHi
             padding: const EdgeInsets.fromLTRB(16, 8, 16,0),
             child: Column(
               children: [
-                // Form(
-                //   key: formKey,
-                //   child: Column(
-                //     children: [
-                //       TextFormField(
-                //         controller: _cardNumber,
-                //         autofocus: false,
-                //         validator: (value) {
-                //           if (value == null || value.trim().isEmpty) {
-                //             return 'This field is required';
-                //           }
-                //         },
-                //         keyboardType: TextInputType.number,
-                //         inputFormatters: [
-                //           FilteringTextInputFormatter.digitsOnly,
-                //           LengthLimitingTextInputFormatter(19),
-                //           CardNumberInputFormatter(),
-                //         ],
-                //         decoration:  InputDecoration(hintText: "Card number",
-                //             suffix: CardUtils.getCardIcon(cardType) //must be fixed
-                //         ),
-                //       ),
-                //       Padding(
-                //         padding: const EdgeInsets.symmetric(vertical: 16),
-                //         child: TextFormField(
-                //           controller: _cardHolderName,
-                //           autofocus: false,
-                //           validator: (value) {
-                //             if (value == null || value.trim().isEmpty) {
-                //               return 'This field is required';
-                //             }
-                //           },
-                //           keyboardType: TextInputType.text,
-                //           decoration:
-                //           const InputDecoration(hintText: "Full name"),
-                //         ),
-                //       ),
-                //       Row(
-                //         children: [
-                //           Expanded(
-                //             child: TextFormField(
-                //               controller: _cvvCode,
-                //               autofocus: false,
-                //               validator: (value) {
-                //                 if (value == null || value.trim().isEmpty) {
-                //                   return 'This field is required';
-                //                 }
-                //               },
-                //               keyboardType: TextInputType.number,
-                //               inputFormatters: [
-                //                 FilteringTextInputFormatter.digitsOnly,
-                //                 // Limit the input
-                //                 LengthLimitingTextInputFormatter(4),
-                //               ],
-                //               decoration: const InputDecoration(hintText: "CVV"),
-                //             ),
-                //           ),
-                //           const SizedBox(width: 16),
-                //           Expanded(
-                //             child: TextFormField(
-                //               controller: _expiryDate,
-                //               keyboardType: TextInputType.number,
-                //               autofocus: false,
-                //               validator: (value) {
-                //                 if (value == null || value.trim().isEmpty) {
-                //                   return 'This field is required';
-                //                 }
-                //               },
-                //               inputFormatters: [
-                //                 FilteringTextInputFormatter.digitsOnly,
-                //                 LengthLimitingTextInputFormatter(5),
-                //                 CardMonthInputFormatter(),
-                //               ],
-                //               decoration:
-                //               const InputDecoration(hintText: "MM/YY"),
-                //             ),
-                //           ),
-                //         ],
-                //       ),
-                //       Padding(
-                //         padding: const EdgeInsets.symmetric(vertical: 16),
-                //         child: TextFormField(
-                //           controller: _amount,
-                //           autofocus: false,
-                //           validator: (value) {
-                //             if (value == null || value.trim().isEmpty) {
-                //               return 'This field is required';
-                //             }
-                //           },
-                //           keyboardType: TextInputType.number,
-                //           inputFormatters: [
-                //             FilteringTextInputFormatter.digitsOnly,
-                //             LengthLimitingTextInputFormatter(19),
-                //             CardNumberInputFormatter(),
-                //           ],
-                //           decoration: const InputDecoration(hintText: "Budget Amount"),
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                // const SizedBox(height: 2),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                //   children: [
-                //     ElevatedButton(
-                //       child: const Text("Add card"),
-                //       onPressed: () async{
-                //         if (formKey.currentState!.validate()){
-                //           var response = await CreditCardsCRUD
-                //               .addCard(
-                //               cardNumber: _cardNumber.text,
-                //               amount: _amount.text,
-                //               expiryDate: _expiryDate.text,
-                //               cardHolderName: _cardHolderName.text,
-                //               cvvCode: _cvvCode.text);
-                //           if(response.code != 200){
-                //             showDialog(context: context,
-                //                 builder: (context){
-                //                   return AlertDialog(
-                //                     content: Text(response.message.toString()),
-                //                   );
-                //                 });
-                //           }else{
-                //             showDialog(context: context,
-                //                 builder: (context){
-                //                   return AlertDialog(
-                //                     content: Text(response.message.toString()),
-                //                   );
-                //                 });
-                //           }
-                //         }
-                //
-                //       },
-                //     ),
-                //     ElevatedButton(
-                //       child: const Text("delete card"),
-                //       onPressed: () {},
-                //     ),
-                //     ElevatedButton(
-                //       child: const Text("update card"),
-                //       onPressed: () {},
-                //     ),
-                //   ],
-                // ),
-                //const Spacer(),
 
                  CreditCard(
                      decoration: BoxDecoration(

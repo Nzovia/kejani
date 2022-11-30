@@ -92,6 +92,8 @@ class _AllBillsState extends State<AllBills> with TickerProviderStateMixin {
                     title: Text("${billsList[index].name}"),
                     subtitle:
                         Text("Unpaid Balance: KSh. ${billsList[index].amount}"),
+
+                    //show bottom sheets here. show bottom shit on tapping the button
                     trailing: ButtonWidget(
                       onPressed: () {
                         showModalBottomSheet(
@@ -99,7 +101,6 @@ class _AllBillsState extends State<AllBills> with TickerProviderStateMixin {
                                 borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
                             context: context, builder: ( BuildContext context){
 
-                          //show bottom sheets here.
                           const SizedBox(height: 10);
                           return FractionallySizedBox(
                             heightFactor: 0.6,

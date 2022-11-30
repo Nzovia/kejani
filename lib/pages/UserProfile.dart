@@ -43,7 +43,9 @@ class _UserProfileState extends State<UserProfile> {
                 color: Colors.white,
               ),
               onPressed: () {
-                //Navigator.of(context).ro;
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomePage()),);
               },
             ),
           ),
