@@ -1,5 +1,7 @@
 import "package:flutter/material.dart";
 
+import 'home_page.dart';
+
 class UserBillsSummary extends StatelessWidget {
   const UserBillsSummary({Key? key}) : super(key: key);
   //Todo: the page will be an accounting of the total of all the bills a user is supposed to pay
@@ -15,7 +17,9 @@ class UserBillsSummary extends StatelessWidget {
                 color: Colors.white,
               ),
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomePage()),);
               },
             ),
           ),
