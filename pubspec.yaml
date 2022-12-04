@@ -54,6 +54,7 @@ dependencies:
   firebase_storage: ^10.2.5
   intl: ^0.17.0
   credit_card_slider: ^1.0.1
+  charts_flutter: ^0.12.0
 
 
 dev_dependencies:
