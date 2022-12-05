@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../model/bills.dart';
+import '../services/bills_service.dart';
 
 class BillDelete extends StatefulWidget {
   const BillDelete({Key? key}) : super(key: key);
@@ -34,17 +35,10 @@ class _BillDeleteState extends State<BillDelete> {
       actions: [
         TextButton(
             onPressed: () async {
-              Navigator.of(context).pop(true);
 
-              var data = await FirebaseFirestore.instance
-                  .collection('users')
-                  .doc(user?.uid)
-                  .collection('bills').doc("billId");
-
-              //deleting.....
-              await FirebaseFirestore.instance.runTransaction((Transaction transaction) async {
-                await transaction.delete(data);
-              });
+              //deleting data
+              // var response = await BillsCrud.deleteBill(docId: e.),
+              // Navigator.of(context).pop(true);
 
             },
             child: const Text(

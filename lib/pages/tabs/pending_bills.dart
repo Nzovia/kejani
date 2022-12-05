@@ -21,7 +21,7 @@ class _PendingBillsState extends State<PendingBills> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(child: AllBills()),
+      body: Container(child: const AllBills()),
     );
   }
 }

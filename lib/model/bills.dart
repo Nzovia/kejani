@@ -1,4 +1,5 @@
 class Bill {
+  String? billId;
   String? name;
   String? amount;
   String? balance;
@@ -7,14 +8,16 @@ class Bill {
   String? status;
   String? paymentDate;
 
-  Bill(
-      {this.name,
-      this.amount,
-      this.balance,
-      this.logo,
-      this.priority,
-      this.status,
-      this.paymentDate});
+  Bill({
+
+    this.billId,
+    this.name,
+    this.amount,
+    this.balance,
+    this.logo,
+    // this.priority,
+    // this.status,
+    this.paymentDate});
 
 //receive data from server
   factory Bill.fromSnapshot(snapshot) {
@@ -36,8 +39,8 @@ class Bill {
       'name': name,
       'balance': balance,
       'logo': logo,
-      'priority': priority,
-      'status': status,
+      // 'priority': priority,
+      // 'status': status,
       'paymentDate': paymentDate,
     };
   }

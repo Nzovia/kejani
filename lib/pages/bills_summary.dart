@@ -1,13 +1,25 @@
-import "package:flutter/material.dart";
-import 'package:charts_flutter/flutter.dart' as charts;
 
-import '../model/summary_data.dart';
+import "package:flutter/material.dart";
+import 'package:pie_chart/pie_chart.dart';
+
 
 
 import 'home_page.dart';
 
 class UserBillsSummary extends StatelessWidget {
-  const UserBillsSummary({Key? key}) : super(key: key);
+   UserBillsSummary({Key? key}) : super(key: key);
+  final data = <String,double>{
+    'A':190,
+    'B': 230,
+    'C': 150,
+   'D': 73,
+   'E': 31,
+  };
+
+  //color list
+   final colorList = <Color>[
+     Colors.greenAccent,
+   ];
   //Todo: the page will be an accounting of the total of all the bills a user is supposed to pay
   //Todo: it is more of an invoice and computation
   @override
@@ -32,30 +44,24 @@ class UserBillsSummary extends StatelessWidget {
          backgroundColor: Colors.blueGrey,
          centerTitle: true,
        ),
-        body: Container(
-          color: Colors.white,
-          child: Expanded(
-                child: charts.PieChart(
-                  _getSeriesData(),
-                  animate: true,
-                  defaultRenderer: charts.ArcRendererConfig(
-                      arcWidth: 60,
-                      arcRendererDecorators: [charts.ArcLabelDecorator()]
-                  ),
-                ),
-              )
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Expanded(
+                     child: PieChart(
+                     dataMap: data,
+                       chartType: ChartType.ring,
+                       baseChartColor: Colors.grey[300]!,
+                       colorList: colorList,
+
+                     ),
+                    ),
+              ],
+            ),
           ),
+        ),
            );
-  _getSeriesData() {
-    List<charts.Series<GradesData, String>> series = [
-      charts.Series(
-          id: "Grades",
-          data: data,
-          labelAccessorFn: (GradesData row, _) => '${row.gradeSymbol}: ${row.numberOfStudents}',
-          domainFn: (GradesData grades, _) => grades.gradeSymbol,
-          measureFn: (GradesData grades, _) => grades.numberOfStudents
-      )
-    ];
-    return series;
-  }
  }

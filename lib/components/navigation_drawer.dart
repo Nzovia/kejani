@@ -118,13 +118,13 @@ class NavigationDrawer extends StatelessWidget {
         break;
       case 2:
         Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => const UserBillsSummary()));
+            MaterialPageRoute(builder: (context) =>  UserBillsSummary()));
         //TODO: Learn more about the app and you can contact us
         break;
       case 3:
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (context) => const AppSettings()));
-        //TODO: opening app settings activity
+        //TODO: opening app settings activityRenderBox was not laid out: ChartContainerRenderObject<dynamic>#38657
         break;
       case 4:
         Navigator.of(context)

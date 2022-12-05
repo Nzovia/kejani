@@ -198,7 +198,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:kejani/services/add_card_details.dart';
+import 'package:kejani/services/cards_service.dart';
 import 'package:kejani/widgets/cards/user_credit_cards.dart';
 
 import '../constants/card_type.dart';
