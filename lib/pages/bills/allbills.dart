@@ -2,19 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
-import 'package:kejani/pages/add_a_billItem.dart';
-import 'package:kejani/pages/payment_activity.dart';
 import 'package:kejani/widgets/button_widget.dart';
-import 'package:kejani/widgets/note_delete.dart';
 
 import '../../model/bills.dart';
-import '../../services/bills_service.dart';
 import '../../widgets/text_widget.dart';
 import '../user_bills_page.dart';
 
 class AllBills extends StatefulWidget {
   final Bill? bill;
+
   const AllBills({Key? key, this.bill}) : super(key: key);
 
   @override
@@ -44,6 +42,11 @@ class _AllBillsState extends State<AllBills> with TickerProviderStateMixin {
   }
 
 
+  Future<void> _delete(String productId) async{
+    await _reference.doc(user?.uid).collection('bills').doc(productId).delete();
+  }
+
+
   //date variables
   DateTime? selectedDate;
   DateTime _date = DateTime.now();
@@ -62,29 +65,6 @@ class _AllBillsState extends State<AllBills> with TickerProviderStateMixin {
   //circular indicator
   late AnimationController animationController;
 
-  // @override
-  // void initState() {
-  //   //initial values
-  //   _docId.value = TextEditingValue(text: widget.bill?.billId.toString()??"");
-  //   _nameController.value = TextEditingValue(text: widget.bill?.name.toString()??"");
-  //   _amountController.value = TextEditingValue(text: widget.bill?.amount.toString()??'');
-  //   _balanceControler.value = TextEditingValue(text: widget.bill?.balance.toString()??"");
-  //   _paymentDateController.value = TextEditingValue(text: widget.bill?.paymentDate.toString()??"");
-  //
-  //
-  //
-  //   //set animated controller on init
-  //   animationController = AnimationController(
-  //     vsync: this,
-  //     duration: const Duration(seconds: 5),
-  //   )..addListener(() {
-  //     setState(() {});
-  //   });
-  //   animationController.repeat(reverse: true);
-  //
-  //   super.initState();
-  //   // fetchBills();
-  // }
 
   //disposing animated controller
   @override
@@ -248,12 +228,48 @@ class _AllBillsState extends State<AllBills> with TickerProviderStateMixin {
                       onDismissed: (direction) {},
                       confirmDismiss: (direction) async {
                         showDialog(context: context,
-                            builder: (_) =>
-                                BillDelete()); //callDelete function here
+                            builder: (_)
+                        =>
+                            AlertDialog(
+                              title: const Text("WARNING", style: TextStyle(
+                                  color: Colors.red)),
+                              content: const Text(
+                                  "Are you sure want to delete the bill"),
+                              actions: [
+                                TextButton(
+                                    onPressed: () async {
+                                      //deleting data
+                                      _delete(documentSnapshot.id);
+
+                                      //show toast
+                                      Fluttertoast.showToast(
+                                          msg: "Bill Successfully deleted",
+                                          toastLength: Toast.LENGTH_SHORT,
+                                          gravity: ToastGravity.CENTER,
+                                          timeInSecForIosWeb: 1,
+                                          textColor: Colors.red,
+                                          fontSize: 12.0
+                                      );
+                                      Navigator.of(context).pop(true);
+
+                                    },
+                                    child: const Text(
+                                      'Yes',
+                                      style: TextStyle(color: Colors.red),
+                                    )),
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop(false);
+                                    },
+                                    child: const Text(
+                                      'No',
+                                      style: TextStyle(color: Colors.green),
+                                    ))
+                              ],
+                            ));//callDelete function here
                       },
                       child: InkWell(
                         onTap: () async {
-
                           //call update method here
                           _update(documentSnapshot);
 
@@ -261,80 +277,108 @@ class _AllBillsState extends State<AllBills> with TickerProviderStateMixin {
                               shape: const RoundedRectangleBorder(
                                   borderRadius: BorderRadius.vertical(
                                       top: Radius.circular(20))),
-                              context: context, builder: (
-                              BuildContext context) {
-                            const SizedBox(height: 5);
-                            return FractionallySizedBox(
-                              heightFactor: 1.0,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    const Text("Update Bill Details",
-                                      style: TextStyle(fontSize: 16,
-                                          fontWeight: FontWeight.w500),),
-                                    const Divider(color: Colors.blueGrey,),
-                                    Form(
-                                      key: _formKey,
-                                      child: Column(
-                                        children: [
-                                          const SizedBox(height: 10,),
-                                          billNameField,
-                                          const SizedBox(height: 10,),
-                                          billAmountField,
-                                          const SizedBox(height: 10,),
-                                          billbalanceFormField,
-                                          const SizedBox(height: 10,),
-                                          paymentDateFormField,
-                                          const SizedBox(height: 16,),
-                                      MaterialButton(
-                                        minWidth: double.infinity,
-                                        height: 45,
-                                        onPressed: () async {
-                                          if (_formKey.currentState!.validate()) {
-                                            // //update takes you to the bills paid screen
-                                            final String name =_nameController.text;
-                                            final String amount = _amountController.text;
-                                            final String balance = _balanceControler.text;
-                                            final String paymentDate = _paymentDateController.text;
+                              context: context,
+                              builder: (BuildContext context) {
+                                const SizedBox(height: 5);
+                                return FractionallySizedBox(
+                                  heightFactor: 1.0,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      children: [
+                                        const Text("Update Bill Details",
+                                          style: TextStyle(fontSize: 16,
+                                              fontWeight: FontWeight.w500),),
+                                        const Divider(color: Colors.blueGrey,),
+                                        Form(
+                                          key: _formKey,
+                                          child: Column(
+                                            children: [
+                                              const SizedBox(height: 10,),
+                                              billNameField,
+                                              const SizedBox(height: 10,),
+                                              billAmountField,
+                                              const SizedBox(height: 10,),
+                                              billbalanceFormField,
+                                              const SizedBox(height: 10,),
+                                              paymentDateFormField,
+                                              const SizedBox(height: 16,),
+                                              MaterialButton(
+                                                minWidth: double.infinity,
+                                                height: 45,
+                                                onPressed: () async {
+                                                  if (_formKey.currentState!
+                                                      .validate()) {
+                                                    // //update takes you to the bills paid screen
+                                                    final String name = _nameController
+                                                        .text;
+                                                    final String amount = _amountController
+                                                        .text;
+                                                    final String balance = _balanceControler
+                                                        .text;
+                                                    final String paymentDate = _paymentDateController
+                                                        .text;
 
-                                            if(name != null){
-                                              await _reference.doc(user?.uid)
-                                                  .collection('bills')
-                                                  .doc(documentSnapshot!.id)
-                                                  .update({'name':name,'amount':amount, 'balance':balance, 'paymentdate':paymentDate});
+                                                    if (name != null) {
+                                                      await _reference.doc(
+                                                          user?.uid)
+                                                          .collection('bills')
+                                                          .doc(
+                                                          documentSnapshot!.id)
+                                                          .update({
+                                                        'name': name,
+                                                        'amount': amount,
+                                                        'balance': balance,
+                                                        'paymentdate': paymentDate
+                                                      });
 
-                                              _nameController.text = '';
-                                              _amountController.text = '';
-                                              _balanceControler.text = '';
-                                              _paymentDateController.text ='';
-
-
-                                            }
-                                            Navigator.pushAndRemoveUntil((context),
-                                                MaterialPageRoute(builder: (context) => UserBills()), (route) => false);
-                                          }
-                                        },
-                                        color: Colors.indigoAccent[400],
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(40)),
-                                        child: const Text(
-                                          "Update Bill",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 16,
+                                                      _nameController.text = '';
+                                                      _amountController.text =
+                                                      '';
+                                                      _balanceControler.text =
+                                                      '';
+                                                      _paymentDateController
+                                                          .text = '';
+                                                    }
+                                                    Fluttertoast.showToast(
+                                                        msg: "Bill Successfully deleted",
+                                                        toastLength: Toast.LENGTH_SHORT,
+                                                        gravity: ToastGravity.CENTER,
+                                                        timeInSecForIosWeb: 1,
+                                                        textColor: Colors.green,
+                                                        fontSize: 12.0
+                                                    );
+                                                    Navigator
+                                                        .pushAndRemoveUntil(
+                                                        (context),
+                                                        MaterialPageRoute(
+                                                            builder: (
+                                                                context) =>
+                                                                UserBills()), (
+                                                        route) => false);
+                                                  }
+                                                },
+                                                color: Colors.indigoAccent[400],
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius
+                                                        .circular(40)),
+                                                child: const Text(
+                                                  "Update Bill",
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                              )
+                                            ],
                                           ),
                                         ),
-                                      )
-                                        ],
-                                      ),
+                                        const Spacer(),
+                                      ],
                                     ),
-                                    const Spacer(),
-                                  ],
-                                ),
-                              ),
-                            );
-                          });
+                                  ),
+                                );
+                              });
                         },
                         child: ListTile(
                             leading: const Icon(Icons.paypal_sharp),
@@ -377,7 +421,8 @@ class _AllBillsState extends State<AllBills> with TickerProviderStateMixin {
                                                     Expanded(
                                                       child: TextFormField(
                                                         autofocus: false,
-                                                        //controller: amountController,
+                                                        enabled: false,
+                                                        controller: _nameController,
                                                         keyboardType: TextInputType
                                                             .text,
                                                         style: const TextStyle(
@@ -428,7 +473,8 @@ class _AllBillsState extends State<AllBills> with TickerProviderStateMixin {
                                                     Expanded(
                                                       child: TextFormField(
                                                         autofocus: false,
-                                                        //controller: amountController,
+                                                        enabled: false,
+                                                        controller: _amountController,
                                                         keyboardType: TextInputType
                                                             .text,
                                                         style: const TextStyle(
@@ -481,6 +527,7 @@ class _AllBillsState extends State<AllBills> with TickerProviderStateMixin {
                                                     Expanded(
                                                       child: TextFormField(
                                                         autofocus: false,
+                                                        enabled: false,
                                                         controller: _paymentDateController,
                                                         keyboardType: TextInputType
                                                             .text,
@@ -523,7 +570,7 @@ class _AllBillsState extends State<AllBills> with TickerProviderStateMixin {
                                               ),
                                               Center(
                                                 child: ButtonWidget(
-                                                    buttonText: "Update Bill",
+                                                    buttonText: "Pay Now",
                                                     shapeBorder: RoundedRectangleBorder(
                                                         borderRadius: BorderRadius
                                                             .circular(40)),
