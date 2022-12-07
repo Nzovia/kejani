@@ -44,7 +44,7 @@ class BillsCrud{
         .set(data)
         .whenComplete(() {
       response.code = 200;
-      response.message = "Card Created Sucessfully";
+      response.message = "bill Created Successfully";
     })
         .catchError((e) {
       response.code = 500;
