@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:kejani/pages/wallet.dart';
 import 'package:kejani/widgets/button_widget.dart';
 
 import '../../model/bills.dart';
 import '../../widgets/text_widget.dart';
+import '../home_page.dart';
 import '../user_bills_page.dart';
 
 class AllBills extends StatefulWidget {
@@ -41,7 +43,13 @@ class _AllBillsState extends State<AllBills> with TickerProviderStateMixin {
     }
   }
 
-
+  Future<void> _addPayment([DocumentSnapshot? documentSnapshot]) async {
+    if (documentSnapshot != null) {
+      _nameController.text = documentSnapshot['name'];
+      _amountController.text = documentSnapshot['amount'];
+      _paymentDateController.text = documentSnapshot['paymentDate'];
+    }
+  }
   Future<void> _delete(String productId) async{
     await _reference.doc(user?.uid).collection('bills').doc(productId).delete();
   }
@@ -341,7 +349,7 @@ class _AllBillsState extends State<AllBills> with TickerProviderStateMixin {
                                                           .text = '';
                                                     }
                                                     Fluttertoast.showToast(
-                                                        msg: "Bill Successfully deleted",
+                                                        msg: "Bill Successfully updated",
                                                         toastLength: Toast.LENGTH_SHORT,
                                                         gravity: ToastGravity.CENTER,
                                                         timeInSecForIosWeb: 1,
@@ -574,27 +582,47 @@ class _AllBillsState extends State<AllBills> with TickerProviderStateMixin {
                                                     shapeBorder: RoundedRectangleBorder(
                                                         borderRadius: BorderRadius
                                                             .circular(40)),
-                                                    onPressed: () {
-                                                      // //update takes you to the bills paid screen
-                                                      // final String name =_nameController.text;
-                                                      // final String amount = _amountController.text;
-                                                      // final String balance = _balanceControler.text;
-                                                      // final String paymentDate = _paymentDateController.text;
-                                                      //
-                                                      // if(name != null){
-                                                      //   await _reference.doc(user?.uid)
-                                                      //       .collection('bills')
-                                                      //       .doc(documentSnapshot!.id)
-                                                      //       .update({'name':name,'amount':amount, 'balance':balance, 'paymentdate':paymentDate});
-                                                      //
-                                                      //   _nameController.text = '';
-                                                      //   _amountController.text = '';
-                                                      //   _balanceControler.text = '';
-                                                      //   _paymentDateController.text ='';
-                                                      //
-                                                      //
-                                                      // }
+                                                    onPressed: () async {
+                                                        // //update takes you to the bills paid screen
+                                                        final String name = _nameController
+                                                            .text;
+                                                        final String amount = _amountController
+                                                            .text;
+                                                        final String paymentDate = _paymentDateController
+                                                            .text;
 
+                                                        if (name != null) {
+
+                                                          await _reference.doc(user?.uid).collection('statements').add(
+                                                              {"name":name,"amount":amount, "paymentDate":paymentDate});
+                                                          _nameController.text = '';
+                                                          _amountController.text = '';
+                                                          _paymentDateController.text = '';
+                                                        }
+                                                        Fluttertoast.showToast(
+                                                            msg: "PaymentSuccessFul",
+                                                            toastLength: Toast.LENGTH_SHORT,
+                                                            gravity: ToastGravity.CENTER,
+                                                            timeInSecForIosWeb: 1,
+                                                            textColor: Colors.green,
+                                                            fontSize: 12.0
+                                                        );
+
+                                                        //call add method
+                                                        _addPayment();
+
+                                                        //delete from bills list
+                                                        _delete(documentSnapshot.id);
+
+
+                                                        Navigator
+                                                            .pushAndRemoveUntil(
+                                                            (context),
+                                                            MaterialPageRoute(
+                                                                builder: (
+                                                                    context) =>
+                                                                    const WalletAndTransactionHistoryPage()), (
+                                                            route) => false);
                                                     },
                                                     buttonColor: Colors.green),
                                               )

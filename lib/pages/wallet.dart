@@ -195,6 +195,7 @@
 //   }
 // }
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -203,6 +204,7 @@ import 'package:kejani/widgets/cards/user_credit_cards.dart';
 
 import '../constants/card_type.dart';
 import '../constants/utils/card_utils.dart';
+import '../services/statements_history.dart';
 import '../widgets/cards/bill_widget.dart';
 import '../widgets/wallet_action_cards.dart';
 import 'home_page.dart';
@@ -215,6 +217,9 @@ class WalletAndTransactionHistoryPage extends StatefulWidget {
 }
 
 class _WalletAndTransactionHistoryPageState extends State<WalletAndTransactionHistoryPage> {
+
+  //firebase reference
+  final CollectionReference _reference = FirebaseFirestore.instance.collection('users');
 
   @override
   void initState() {
@@ -513,31 +518,36 @@ class _WalletAndTransactionHistoryPageState extends State<WalletAndTransactionHi
                 const SizedBox(height: 8,),
                 const Text("Payment History", style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),),
                 const Divider(color: Colors.black,),
+                const SizedBox(height: 8,),
+                Container(
+                  height: 800,
+                  child: StatementsHistory(),
+                )
                 //Dynamic list of all transactions
-                const BillsWidget(
-                  colors: Colors.grey,
-                  billlogo: Icons.paypal_outlined,
-                  billsName: 'Water Bill. KSH. 3000',
-                  date: 'Paid: 02/04/2022',
-                ),
-                const BillsWidget(
-                  colors: Colors.grey,
-                  billlogo: Icons.paypal_outlined,
-                  billsName: 'House Rent. KSH. 13000',
-                  date: 'Paid: 01/11/2022',
-                ),
-                const BillsWidget(
-                  colors: Colors.grey,
-                  billlogo: Icons.paypal_outlined,
-                  billsName: 'Netflix Fee. KSH. 1500',
-                  date: 'Paid: 01/11/2022',
-                ),
-                const BillsWidget(
-                  colors: Colors.grey,
-                  billlogo: Icons.paypal_outlined,
-                  billsName: 'House Rent. KSH. 13000',
-                  date: 'Paid: 01/11/2022',
-                ),
+                // const BillsWidget(
+                //   colors: Colors.grey,
+                //   billlogo: Icons.paypal_outlined,
+                //   billsName: 'Water Bill. KSH. 3000',
+                //   date: 'Paid: 02/04/2022',
+                // ),
+                // const BillsWidget(
+                //   colors: Colors.grey,
+                //   billlogo: Icons.paypal_outlined,
+                //   billsName: 'House Rent. KSH. 13000',
+                //   date: 'Paid: 01/11/2022',
+                // ),
+                // const BillsWidget(
+                //   colors: Colors.grey,
+                //   billlogo: Icons.paypal_outlined,
+                //   billsName: 'Netflix Fee. KSH. 1500',
+                //   date: 'Paid: 01/11/2022',
+                // ),
+                // const BillsWidget(
+                //   colors: Colors.grey,
+                //   billlogo: Icons.paypal_outlined,
+                //   billsName: 'House Rent. KSH. 13000',
+                //   date: 'Paid: 01/11/2022',
+                // ),
 
               ],
             ),
